@@ -15,6 +15,7 @@ import { UpdateSizeDto } from './dto/update-size.dto';
 export class SizesController {
   constructor(private readonly sizesService: SizesService) {}
 
+  // TODO SUPER ADMIN
   @Post()
   create(@Body() createSizeDto: CreateSizeDto) {
     return this.sizesService.create(createSizeDto);
@@ -30,11 +31,13 @@ export class SizesController {
     return this.sizesService.findOne(+id);
   }
 
+  // TODO SUPER ADMIN
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSizeDto: UpdateSizeDto) {
     return this.sizesService.update(+id, updateSizeDto);
   }
 
+  // TODO SUPER ADMIN
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.sizesService.remove(+id);
