@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SizesModule } from './sizes/sizes.module';
+import { RecipientsModule } from './recipients/recipients.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SizesModule } from './sizes/sizes.module';
       autoLoadEntities: true,
     }),
     SizesModule,
+    RecipientsModule,
   ],
   controllers: [AppController],
 })
