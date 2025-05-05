@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Flower } from '../../flowers/entities/flower.entity';
 
 @Entity()
 export class Size {
@@ -10,4 +11,7 @@ export class Size {
 
   @Column('text')
   image: string;
+
+  @OneToMany(() => Flower, (flower) => flower.size)
+  flowers: Flower[];
 }

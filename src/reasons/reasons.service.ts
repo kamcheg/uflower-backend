@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class ReasonsService {
   constructor(
-    @InjectRepository(Repository)
+    @InjectRepository(Reason)
     private repository: Repository<Reason>,
   ) {}
 

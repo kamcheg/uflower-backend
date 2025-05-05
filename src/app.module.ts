@@ -5,6 +5,7 @@ import { SizesModule } from './sizes/sizes.module';
 import { RecipientsModule } from './recipients/recipients.module';
 import { FlowerTypesModule } from './flower-types/flower-types.module';
 import { ReasonsModule } from './reasons/reasons.module';
+import { FlowersModule } from './flowers/flowers.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ReasonsModule } from './reasons/reasons.module';
     RecipientsModule,
     FlowerTypesModule,
     ReasonsModule,
+    FlowersModule,
   ],
   controllers: [AppController],
 })
