@@ -16,7 +16,11 @@ export class BrandsService {
   }
 
   findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      relations: {
+        flowers: true,
+      },
+    });
   }
 
   async findOne(id: number) {

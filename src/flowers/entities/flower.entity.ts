@@ -13,6 +13,7 @@ import { Recipient } from '../../recipients/entities/recipient.entity';
 import { FlowerType } from '../../flower-types/entities/flower-type.entity';
 import { Image } from '../../images/entities/image.entity';
 import { AbstractEntity } from '../../common/entities/abstract.entity';
+import { Brand } from '../../brands/entities/brand.entity';
 
 @Entity()
 export class Flower extends AbstractEntity {
@@ -40,6 +41,10 @@ export class Flower extends AbstractEntity {
   @ManyToOne(() => Size, (size) => size.flowers)
   @JoinColumn({ name: 'size_id' })
   size: Size;
+
+  @ManyToOne(() => Brand, (brand) => brand.flowers)
+  @JoinColumn({ name: 'brand_id' })
+  brand: Brand;
 
   @ManyToMany(() => Reason, (reason) => reason.flowers)
   @JoinTable({
