@@ -7,6 +7,7 @@ import { SizesModule } from '../sizes/sizes.module';
 import { ReasonsModule } from '../reasons/reasons.module';
 import { RecipientsModule } from '../recipients/recipients.module';
 import { FlowerTypesModule } from '../flower-types/flower-types.module';
+import { ImagesModule } from '../images/images.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { FlowerTypesModule } from '../flower-types/flower-types.module';
     RecipientsModule,
     ReasonsModule,
     SizesModule,
+    ImagesModule,
     TypeOrmModule.forFeature([Flower]),
   ],
   controllers: [FlowersController],

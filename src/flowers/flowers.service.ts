@@ -16,13 +16,14 @@ const scheme = {
     reasons: true,
     recipients: true,
     flowerTypes: true,
+    images: true,
   },
-  // select: {
-  //   size: {
-  //     id: true,
-  //     title: true,
-  //   },
-  // },
+  select: {
+    images: {
+      id: true,
+      path: true,
+    },
+  },
 } as const;
 
 @Injectable()
