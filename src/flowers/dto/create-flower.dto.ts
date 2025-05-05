@@ -7,5 +7,5 @@ export class CreateFlowerDto {
 
   @IsNotEmpty()
   @IsNumber()
-  size: number;
+  sizeId: number;
 }

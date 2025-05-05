@@ -21,8 +21,14 @@ export class SizesService {
     return this.sizesRepository.find();
   }
 
-  findOne(id: number) {
-    return this.sizesRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const current = await this.sizesRepository.findOneBy({ id });
+
+    if (!current) {
+      throw new NotFoundException(`Size with id ${id} not found`);
+    }
+
+    return current;
   }
 
   async update(id: number, updateSizeDto: UpdateSizeDto) {

@@ -3,9 +3,10 @@ import { FlowersService } from './flowers.service';
 import { FlowersController } from './flowers.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Flower } from './entities/flower.entity';
+import { SizesModule } from '../sizes/sizes.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Flower])],
+  imports: [SizesModule, TypeOrmModule.forFeature([Flower])],
   controllers: [FlowersController],
   providers: [FlowersService],
 })
