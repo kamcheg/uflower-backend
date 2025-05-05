@@ -7,7 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SizesService } from '../sizes/sizes.service';
 
 const scheme = {
-  relations: { size: true },
+  relations: {
+    size: true,
+    reasons: true,
+  },
   select: {
     size: {
       id: true,

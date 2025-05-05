@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Flower } from '../../flowers/entities/flower.entity';
 
 @Entity()
 export class Reason {
@@ -7,4 +8,7 @@ export class Reason {
 
   @Column()
   title: string;
+
+  @ManyToMany(() => Flower, (flower) => flower.reasons)
+  flowers: Flower[];
 }
