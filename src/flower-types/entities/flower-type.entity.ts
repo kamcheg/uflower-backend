@@ -1,11 +1,9 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { Flower } from '../../flowers/entities/flower.entity';
+import { AbstractEntity } from '../../common/entities/abstract.entity';
 
 @Entity('flower-type')
-export class FlowerType {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class FlowerType extends AbstractEntity {
   @Column()
   title: string;
 

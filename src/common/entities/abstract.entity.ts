@@ -9,9 +9,9 @@ export abstract class AbstractEntity extends TypeORMBaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

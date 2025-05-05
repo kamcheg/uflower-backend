@@ -1,18 +1,9 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Flower } from '../../flowers/entities/flower.entity';
+import { AbstractEntity } from '../../common/entities/abstract.entity';
 
 @Entity()
-export class Image {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Image extends AbstractEntity {
   @Column()
   filename: string;
 
@@ -21,9 +12,6 @@ export class Image {
 
   @Column()
   mimetype: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @ManyToOne(() => Flower, (flower) => flower.images)
   @JoinColumn({ name: 'flower_id' })

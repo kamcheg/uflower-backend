@@ -6,19 +6,16 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Size } from '../../sizes/entities/size.entity';
 import { Reason } from '../../reasons/entities/reason.entity';
 import { Recipient } from '../../recipients/entities/recipient.entity';
 import { FlowerType } from '../../flower-types/entities/flower-type.entity';
 import { Image } from '../../images/entities/image.entity';
+import { AbstractEntity } from '../../common/entities/abstract.entity';
 
 @Entity()
-export class Flower {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Flower extends AbstractEntity {
   @Column()
   name: string;
 
