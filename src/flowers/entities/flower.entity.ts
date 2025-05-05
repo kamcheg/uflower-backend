@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Size } from '../../sizes/entities/size.entity';
 import { Reason } from '../../reasons/entities/reason.entity';
+import { Recipient } from '../../recipients/entities/recipient.entity';
 
 @Entity()
 export class Flower {
@@ -35,4 +36,18 @@ export class Flower {
     },
   })
   reasons: Reason[];
+
+  @ManyToMany(() => Recipient, (recipient) => recipient.flowers)
+  @JoinTable({
+    name: 'flower_recipient',
+    joinColumn: {
+      name: 'flower_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'recipient_id',
+      referencedColumnName: 'id',
+    },
+  })
+  recipients: Recipient[];
 }

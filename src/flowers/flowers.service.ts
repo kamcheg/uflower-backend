@@ -10,13 +10,14 @@ const scheme = {
   relations: {
     size: true,
     reasons: true,
+    recipients: true,
   },
-  select: {
-    size: {
-      id: true,
-      title: true,
-    },
-  },
+  // select: {
+  //   size: {
+  //     id: true,
+  //     title: true,
+  //   },
+  // },
 } as const;
 
 @Injectable()
