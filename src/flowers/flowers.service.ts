@@ -8,6 +8,7 @@ import { SizesService } from '../sizes/sizes.service';
 import { ReasonsService } from '../reasons/reasons.service';
 import { RecipientsService } from '../recipients/recipients.service';
 import { FlowerTypesService } from '../flower-types/flower-types.service';
+import { ImagesService } from '../images/images.service';
 
 const scheme = {
   relations: {
@@ -33,6 +34,7 @@ export class FlowersService {
     private readonly reasonsService: ReasonsService,
     private readonly recipientsService: RecipientsService,
     private readonly flowerTypesService: FlowerTypesService,
+    private readonly imagesService: ImagesService,
   ) {}
 
   async create(createFlowerDto: CreateFlowerDto) {
@@ -46,6 +48,7 @@ export class FlowersService {
     const flowerTypes = await this.flowerTypesService.findByIds(
       createFlowerDto.flowerTypeIds,
     );
+    const images = await this.imagesService.findByIds(createFlowerDto.imageIds);
 
     const newEl = this.repository.create({
       ...createFlowerDto,
@@ -53,6 +56,7 @@ export class FlowersService {
       reasons,
       recipients,
       flowerTypes,
+      images,
     });
     return this.repository.save(newEl);
   }

@@ -16,4 +16,6 @@ export class CreateFlowerDto {
   recipientIds: number[];
 
   flowerTypeIds: number[];
+
+  imageIds: number[];
 }

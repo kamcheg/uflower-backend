@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Flower } from '../../flowers/entities/flower.entity';
 
 @Entity()
 export class Image {
@@ -21,4 +24,8 @@ export class Image {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToOne(() => Flower, (flower) => flower.images)
+  @JoinColumn({ name: 'flower_id' })
+  flower: Flower;
 }
