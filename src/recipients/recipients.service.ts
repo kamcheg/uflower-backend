@@ -1,32 +1,48 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRecipientDto } from './dto/create-recipient.dto';
 import { UpdateRecipientDto } from './dto/update-recipient.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipient } from './entities/recipient.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class RecipientsService {
   constructor(
     @InjectRepository(Recipient)
-    private recipientRepository: Repository<Recipient>,
+    private repository: Repository<Recipient>,
   ) {}
 
   async create(createRecipientDto: CreateRecipientDto) {
-    const newRecipient = this.recipientRepository.create(createRecipientDto);
-    return await this.recipientRepository.save(newRecipient);
+    const newRecipient = this.repository.create(createRecipientDto);
+    return await this.repository.save(newRecipient);
   }
 
   findAll() {
-    return this.recipientRepository.find();
+    return this.repository.find();
   }
 
   findOne(id: number) {
-    return this.recipientRepository.findOneBy({ id });
+    return this.repository.findOneBy({ id });
+  }
+
+  async findByIds(ids: number[]) {
+    const items = await this.repository.findBy({
+      id: In(ids),
+    });
+
+    if (items.length !== ids.length) {
+      throw new BadRequestException(`Some recipients not found`);
+    }
+
+    return items;
   }
 
   async update(id: number, updateRecipientDto: UpdateRecipientDto) {
-    const recipient = await this.recipientRepository.preload({
+    const recipient = await this.repository.preload({
       id,
       ...updateRecipientDto,
     });
@@ -35,10 +51,10 @@ export class RecipientsService {
       throw new NotFoundException(`Recipient with id ${id} not found`);
     }
 
-    return this.recipientRepository.save(recipient);
+    return this.repository.save(recipient);
   }
 
   remove(id: number) {
-    return this.recipientRepository.delete(id);
+    return this.repository.delete(id);
   }
 }

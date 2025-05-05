@@ -12,4 +12,6 @@ export class CreateFlowerDto {
   // @IsNotEmpty()
   // @IsNumber()
   reasonIds: number[];
+
+  recipientIds: number[];
 }

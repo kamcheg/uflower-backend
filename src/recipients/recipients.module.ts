@@ -8,5 +8,6 @@ import { Recipient } from './entities/recipient.entity';
   imports: [TypeOrmModule.forFeature([Recipient])],
   controllers: [RecipientsController],
   providers: [RecipientsService],
+  exports: [RecipientsService],
 })
 export class RecipientsModule {}

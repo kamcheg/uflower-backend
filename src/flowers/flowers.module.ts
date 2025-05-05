@@ -5,9 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Flower } from './entities/flower.entity';
 import { SizesModule } from '../sizes/sizes.module';
 import { ReasonsModule } from '../reasons/reasons.module';
+import { RecipientsModule } from '../recipients/recipients.module';
 
 @Module({
-  imports: [ReasonsModule, SizesModule, TypeOrmModule.forFeature([Flower])],
+  imports: [
+    RecipientsModule,
+    ReasonsModule,
+    SizesModule,
+    TypeOrmModule.forFeature([Flower]),
+  ],
   controllers: [FlowersController],
   providers: [FlowersService],
 })
