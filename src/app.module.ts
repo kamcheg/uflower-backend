@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SizesModule } from './sizes/sizes.module';
 import { RecipientsModule } from './recipients/recipients.module';
+import { FlowerTypesModule } from './flower-types/flower-types.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RecipientsModule } from './recipients/recipients.module';
     }),
     SizesModule,
     RecipientsModule,
+    FlowerTypesModule,
   ],
   controllers: [AppController],
 })
