@@ -18,12 +18,12 @@ const scheme = {
     flowerTypes: true,
     images: true,
   },
-  // select: {
-  //   images: {
-  //     id: true,
-  //     path: true,
-  //   },
-  // },
+  select: {
+    images: {
+      id: true,
+      path: true,
+    },
+  },
 } as const;
 
 @Injectable()
