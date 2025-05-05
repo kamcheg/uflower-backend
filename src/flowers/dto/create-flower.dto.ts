@@ -14,4 +14,6 @@ export class CreateFlowerDto {
   reasonIds: number[];
 
   recipientIds: number[];
+
+  flowerTypeIds: number[];
 }

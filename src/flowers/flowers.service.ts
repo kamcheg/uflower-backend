@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SizesService } from '../sizes/sizes.service';
 import { ReasonsService } from '../reasons/reasons.service';
 import { RecipientsService } from '../recipients/recipients.service';
+import { FlowerTypesService } from '../flower-types/flower-types.service';
 
 const scheme = {
   relations: {
@@ -35,6 +36,7 @@ export class FlowersService {
     private readonly sizesService: SizesService,
     private readonly reasonsService: ReasonsService,
     private readonly recipientsService: RecipientsService,
+    private readonly flowerTypesService: FlowerTypesService,
   ) {}
 
   async create(createFlowerDto: CreateFlowerDto) {
@@ -45,12 +47,16 @@ export class FlowersService {
     const recipients = await this.recipientsService.findByIds(
       createFlowerDto.recipientIds,
     );
+    const flowerTypes = await this.flowerTypesService.findByIds(
+      createFlowerDto.flowerTypeIds,
+    );
 
     const newEl = this.repository.create({
       ...createFlowerDto,
       size,
       reasons,
       recipients,
+      flowerTypes,
     });
     return this.repository.save(newEl);
   }

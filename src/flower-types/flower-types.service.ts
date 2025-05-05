@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateFlowerTypeDto } from './dto/create-flower-type.dto';
 import { UpdateFlowerTypeDto } from './dto/update-flower-type.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { FlowerType } from './entities/flower-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -22,6 +26,18 @@ export class FlowerTypesService {
 
   findOne(id: number) {
     return this.repository.findOneBy({ id });
+  }
+
+  async findByIds(ids: number[]) {
+    const items = await this.repository.findBy({
+      id: In(ids),
+    });
+
+    if (items.length !== ids.length) {
+      throw new BadRequestException(`Some flower-types not found`);
+    }
+
+    return items;
   }
 
   async update(id: number, updateFlowerTypeDto: UpdateFlowerTypeDto) {

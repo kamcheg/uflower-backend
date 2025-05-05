@@ -8,5 +8,6 @@ import { FlowerType } from './entities/flower-type.entity';
   imports: [TypeOrmModule.forFeature([FlowerType])],
   controllers: [FlowerTypesController],
   providers: [FlowerTypesService],
+  exports: [FlowerTypesService],
 })
 export class FlowerTypesModule {}
