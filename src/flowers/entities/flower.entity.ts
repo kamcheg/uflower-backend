@@ -10,6 +10,7 @@ import {
 import { Size } from '../../sizes/entities/size.entity';
 import { Reason } from '../../reasons/entities/reason.entity';
 import { Recipient } from '../../recipients/entities/recipient.entity';
+import { FlowerType } from '../../flower-types/entities/flower-type.entity';
 
 @Entity()
 export class Flower {
@@ -50,4 +51,18 @@ export class Flower {
     },
   })
   recipients: Recipient[];
+
+  @ManyToMany(() => FlowerType, (flowerType) => flowerType.flowers)
+  @JoinTable({
+    name: 'flower_flower-type',
+    joinColumn: {
+      name: 'flower_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'flower-type_id',
+      referencedColumnName: 'id',
+    },
+  })
+  flowerTypes: FlowerType[];
 }

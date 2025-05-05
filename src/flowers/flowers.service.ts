@@ -11,6 +11,7 @@ const scheme = {
     size: true,
     reasons: true,
     recipients: true,
+    flowerTypes: true,
   },
   // select: {
   //   size: {
