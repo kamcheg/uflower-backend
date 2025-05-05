@@ -20,6 +20,21 @@ export class Flower {
   @Column()
   name: string;
 
+  @Column({ default: '' })
+  description: string;
+
+  @Column()
+  price: number;
+
+  @Column({ default: true })
+  isActive: boolean;
+
+  @Column({ default: 0 })
+  width: number;
+
+  @Column({ default: 0 })
+  height: number;
+
   @ManyToOne(() => Size, (size) => size.flowers)
   @JoinColumn({ name: 'size_id' })
   size: Size;

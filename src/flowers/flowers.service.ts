@@ -32,7 +32,7 @@ const scheme = {
 export class FlowersService {
   constructor(
     @InjectRepository(Flower)
-    private repository: Repository<Flower>,
+    private readonly repository: Repository<Flower>,
     private readonly sizesService: SizesService,
     private readonly reasonsService: ReasonsService,
     private readonly recipientsService: RecipientsService,
