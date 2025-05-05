@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlowerDto } from './dto/create-flower.dto';
-// import { UpdateFlowerDto } from './dto/update-flower.dto';
 import { Repository } from 'typeorm';
 import { Flower } from './entities/flower.entity';
 import { InjectRepository } from '@nestjs/typeorm';
