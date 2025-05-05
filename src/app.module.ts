@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SizesModule } from './sizes/sizes.module';
 import { RecipientsModule } from './recipients/recipients.module';
 import { FlowerTypesModule } from './flower-types/flower-types.module';
+import { ReasonsModule } from './reasons/reasons.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FlowerTypesModule } from './flower-types/flower-types.module';
     SizesModule,
     RecipientsModule,
     FlowerTypesModule,
+    ReasonsModule,
   ],
   controllers: [AppController],
 })
