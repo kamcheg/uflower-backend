@@ -8,4 +8,8 @@ export class CreateFlowerDto {
   @IsNotEmpty()
   @IsNumber()
   sizeId: number;
+
+  // @IsNotEmpty()
+  // @IsNumber()
+  reasonIds: number[];
 }

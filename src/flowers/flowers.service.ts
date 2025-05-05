@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateFlowerDto } from './dto/create-flower.dto';
 // import { UpdateFlowerDto } from './dto/update-flower.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Flower } from './entities/flower.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SizesService } from '../sizes/sizes.service';
+import { ReasonsService } from '../reasons/reasons.service';
 
 const scheme = {
   relations: {
@@ -27,12 +32,20 @@ export class FlowersService {
     @InjectRepository(Flower)
     private repository: Repository<Flower>,
     private readonly sizesService: SizesService,
+    private readonly reasonsService: ReasonsService,
   ) {}
 
   async create(createFlowerDto: CreateFlowerDto) {
     const size = await this.sizesService.findOne(createFlowerDto.sizeId);
+    const reasons = await this.reasonsService.findByIds(
+      createFlowerDto.reasonIds,
+    );
 
-    const newEl = this.repository.create({ ...createFlowerDto, size });
+    const newEl = this.repository.create({
+      ...createFlowerDto,
+      size,
+      reasons,
+    });
     return this.repository.save(newEl);
   }
 
