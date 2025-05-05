@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
 
 export class CreateFlowerDto {
   @IsNotEmpty()
@@ -9,13 +9,23 @@ export class CreateFlowerDto {
   @IsNumber()
   sizeId: number;
 
-  // @IsNotEmpty()
-  // @IsNumber()
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsArray()
+  @IsNumber({}, { each: true })
   reasonIds: number[];
 
+  @IsArray()
+  @IsNumber({}, { each: true })
   recipientIds: number[];
 
+  @IsArray()
+  @IsNumber({}, { each: true })
   flowerTypeIds: number[];
 
+  @IsArray()
+  @IsNumber({}, { each: true })
   imageIds: number[];
 }
