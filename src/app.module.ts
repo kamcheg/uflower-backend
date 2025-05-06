@@ -10,6 +10,7 @@ import { ImagesModule } from './images/images.module';
 import { BrandsModule } from './brands/brands.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ShopsModule } from './shops/shops.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UsersModule } from './users/users.module';
     BrandsModule,
     AuthModule,
     UsersModule,
+    ShopsModule,
   ],
   controllers: [AppController],
 })

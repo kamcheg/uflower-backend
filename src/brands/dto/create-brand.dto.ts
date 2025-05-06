@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IWorkTime } from '../../common/types';
 
 export class CreateBrandDto {
   @IsNotEmpty()
@@ -19,8 +20,5 @@ export class CreateBrandDto {
   sitePhone: string;
 
   @IsNotEmpty()
-  schedule: {
-    from: string;
-    to: string;
-  };
+  schedule: IWorkTime;
 }

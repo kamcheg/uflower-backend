@@ -2,6 +2,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { AbstractEntity } from '../../common/entities/abstract.entity';
 import { Flower } from '../../flowers/entities/flower.entity';
 import { User } from '../../users/entities/user.entity';
+import { IWorkTime } from '../../common/types';
+import { Shop } from '../../shops/entities/shop.entity';
 
 @Entity()
 export class Brand extends AbstractEntity {
@@ -15,7 +17,7 @@ export class Brand extends AbstractEntity {
   email: string;
 
   @Column({ type: 'json' })
-  schedule: { from: string; to: string };
+  schedule: IWorkTime;
 
   @Column({ unique: true })
   sitePhone: string;
@@ -28,4 +30,7 @@ export class Brand extends AbstractEntity {
 
   @OneToMany(() => User, (user) => user.brand)
   users: User[];
+
+  @OneToMany(() => Shop, (shop) => shop.brand)
+  shops: Shop[];
 }
