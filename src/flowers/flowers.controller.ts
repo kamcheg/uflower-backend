@@ -11,7 +11,7 @@ import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { UserDecorator } from '../auth/decorators/user.decorator';
-import { UserPayload } from '../auth/constants';
+import { UserPayload } from '../common/types';
 
 @Controller('flowers')
 export class FlowersController {

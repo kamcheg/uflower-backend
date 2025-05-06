@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 import { CreateBrandDto } from './dto/sign-in.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { UserDecorator } from './decorators/user.decorator';
-import { UserPayload } from './constants';
+import { UserPayload } from '../common/types';
 
 @Controller('auth')
 export class AuthController {

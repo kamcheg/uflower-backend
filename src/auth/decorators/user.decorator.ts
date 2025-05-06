@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { UserPayload } from '../constants';
 import { Request } from 'express';
+import { UserPayload } from '../../common/types';
 
 export const UserDecorator = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): UserPayload => {
