@@ -35,6 +35,6 @@ export class CreateFlowerDto {
   flowerTypeIds: number[];
 
   @IsArray()
-  @IsNumber({}, { each: true })
-  imageIds: number[];
+  @IsString({ each: true })
+  images: string[];
 }

@@ -46,7 +46,6 @@ export class FlowersService {
       reasons,
       recipients,
       flowerTypes,
-      images: [], // TODO
     });
     return this.repository.save(newEl);
   }
