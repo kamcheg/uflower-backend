@@ -61,8 +61,15 @@ export class FlowersService {
     return this.repository.save(newEl);
   }
 
-  findAll() {
-    return this.repository.find(scheme);
+  findAll(brandId: number) {
+    return this.repository.find({
+      where: {
+        brand: {
+          id: brandId,
+        },
+      },
+      ...scheme,
+    });
   }
 
   async findOne(id: number) {

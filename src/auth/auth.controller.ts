@@ -10,7 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateBrandDto } from './dto/sign-in.dto';
 import { AuthGuard } from './guards/auth.guard';
-import { User } from './decorators/user.decorator';
+import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from './constants';
 
 @Controller('auth')
@@ -25,7 +25,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@User() user: UserPayload) {
+  getProfile(@UserDecorator() user: UserPayload) {
     return user;
   }
 }

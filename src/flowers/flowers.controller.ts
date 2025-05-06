@@ -10,6 +10,8 @@ import {
 import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { UserDecorator } from '../auth/decorators/user.decorator';
+import { UserPayload } from '../auth/constants';
 
 @Controller('flowers')
 export class FlowersController {
@@ -22,8 +24,8 @@ export class FlowersController {
 
   @UseGuards(AuthGuard)
   @Get()
-  findAll() {
-    return this.flowersService.findAll();
+  findAll(@UserDecorator() user: UserPayload) {
+    return this.flowersService.findAll(user.brand);
   }
 
   @Get(':id')
