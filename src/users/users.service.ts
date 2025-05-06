@@ -11,7 +11,12 @@ export class UsersService {
   ) {}
 
   async findOne(email: string) {
-    const user = await this.repository.findOneBy({ email });
+    const user = await this.repository.findOne({
+      where: { email },
+      relations: {
+        brand: true,
+      },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with email ${email}`);

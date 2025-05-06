@@ -1,6 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('flowers')
 export class FlowersController {
@@ -11,6 +20,7 @@ export class FlowersController {
     return this.flowersService.create(createFlowerDto);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.flowersService.findAll();

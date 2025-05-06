@@ -5,13 +5,12 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateBrandDto } from './dto/sign-in.dto';
 import { AuthGuard } from './guards/auth.guard';
-import { Request } from 'express';
+import { User } from './decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +24,8 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Req() req: Request) {
-    return req.user;
+  getProfile(@User() user: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return user;
   }
 }
