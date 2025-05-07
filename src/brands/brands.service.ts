@@ -16,18 +16,18 @@ export class BrandsService {
     return this.repository.save(createBrandDto);
   }
 
-  async findOne(user: UserPayload) {
+  async findOne(brandId: UserPayload['brand']) {
     const current = await this.repository.findOne({
       relations: {
         shops: true,
       },
       where: {
-        id: user.brand,
+        id: brandId,
       },
     });
 
     if (!current) {
-      throw new NotFoundException(`Brand with id ${user.brand} not found`);
+      throw new NotFoundException(`Brand with id ${brandId} not found`);
     }
 
     return current;

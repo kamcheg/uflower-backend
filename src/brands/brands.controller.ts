@@ -17,6 +17,6 @@ export class BrandsController {
   @UseGuards(AuthGuard)
   @Get()
   findMyBrand(@UserDecorator() user: UserPayload) {
-    return this.brandsService.findOne(user);
+    return this.brandsService.findOne(user.brand);
   }
 }
