@@ -37,7 +37,7 @@ export class ShopsService {
 
   async update(
     id: number,
-    brandId: UserPayload['brand'], // TODO!!!!
+    brandId: UserPayload['brand'],
     updateDto: UpdateShopDto,
   ) {
     const shop = await this.repository.findOneBy({
