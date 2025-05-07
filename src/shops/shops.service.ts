@@ -40,16 +40,22 @@ export class ShopsService {
     brandId: UserPayload['brand'], // TODO!!!!
     updateDto: UpdateShopDto,
   ) {
-    const current = await this.repository.preload({
-      id,
-      ...updateDto,
+    const shop = await this.repository.findOneBy({
+      id: id,
+      brand: {
+        id: brandId,
+      },
     });
 
-    if (!current) {
-      throw new NotFoundException(`Shop with id ${id} not found`);
+    if (!shop) {
+      throw new NotFoundException(
+        `Shop with id ${id} and brandId ${brandId} not found`,
+      );
     }
 
-    return await this.repository.save(current);
+    Object.assign(shop, updateDto);
+
+    return await this.repository.save(shop);
   }
 
   async remove(id: number, brandId: number) {
