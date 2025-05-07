@@ -22,8 +22,8 @@ export class Brand extends AbstractEntity {
   @Column({ unique: true })
   sitePhone: string;
 
-  @Column({ nullable: true })
-  logo: string;
+  @Column({ type: 'varchar', nullable: true })
+  logo: string | null;
 
   @OneToMany(() => Flower, (flower) => flower.brand)
   flowers: Flower[];

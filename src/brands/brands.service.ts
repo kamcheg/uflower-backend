@@ -19,15 +19,13 @@ export class BrandsService {
   }
 
   async changeLogo(brandId: UserPayload['brand'], dto: UpdateLogoDto) {
-    const current = await this.repository.preload({
-      id: brandId,
-      logo: dto.logo,
-    });
+    const current = await this.repository.findOne({ where: { id: brandId } });
 
     if (!current) {
       throw new NotFoundException(`Brand with id ${brandId} not found`);
     }
 
+    current.logo = dto.logo || null;
     return this.repository.save(current);
   }
 
