@@ -12,15 +12,12 @@ import { IWorkTime } from '../../common/types';
 import { Type } from 'class-transformer';
 
 class ScheduleDto implements IWorkTime {
-  @IsNotEmpty()
   @IsString()
   from: string;
 
-  @IsNotEmpty()
   @IsString()
   to: string;
 
-  @IsNotEmpty()
   @IsBoolean()
   isAlwaysOpened: boolean;
 }
