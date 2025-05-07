@@ -5,6 +5,7 @@ import { Brand } from './entities/brand.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPayload } from '../common/types';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { UpdateLogoDto } from './dto/update-logo.dto';
 
 @Injectable()
 export class BrandsService {
@@ -15,6 +16,19 @@ export class BrandsService {
 
   create(createBrandDto: CreateBrandDto) {
     return this.repository.save(createBrandDto);
+  }
+
+  async changeLogo(brandId: UserPayload['brand'], dto: UpdateLogoDto) {
+    const current = await this.repository.preload({
+      id: brandId,
+      logo: dto.logo,
+    });
+
+    if (!current) {
+      throw new NotFoundException(`Brand with id ${brandId} not found`);
+    }
+
+    return this.repository.save(current);
   }
 
   async findOne(brandId: UserPayload['brand']) {

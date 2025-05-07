@@ -5,6 +5,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { UserDecorator } from '../auth/decorators/user.decorator';
 import { UserPayload } from '../common/types';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { UpdateLogoDto } from './dto/update-logo.dto';
 
 @Controller('brands')
 export class BrandsController {
@@ -14,6 +15,12 @@ export class BrandsController {
   @Post()
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandsService.create(createBrandDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('change-logo')
+  changeLogo(@UserDecorator() user: UserPayload, @Body() dto: UpdateLogoDto) {
+    return this.brandsService.changeLogo(user.brand, dto);
   }
 
   @UseGuards(AuthGuard)
