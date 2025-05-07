@@ -5,6 +5,7 @@ import { Shop } from './entities/shop.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { BrandsService } from '../brands/brands.service';
+import { UserPayload } from '../common/types';
 
 @Injectable()
 export class ShopsService {
@@ -14,7 +15,6 @@ export class ShopsService {
     private readonly brandsService: BrandsService,
   ) {}
 
-  // COMPLETED
   async create(createDto: CreateShopDto, brandId: number) {
     const brand = await this.brandsService.findOne(brandId);
 
@@ -25,7 +25,21 @@ export class ShopsService {
     return await this.repository.save(newEl);
   }
 
-  async update(id: number, updateDto: UpdateShopDto) {
+  async findAll(brandId: UserPayload['brand']) {
+    return await this.repository.find({
+      where: {
+        brand: {
+          id: brandId,
+        },
+      },
+    });
+  }
+
+  async update(
+    id: number,
+    brandId: UserPayload['brand'], // TODO!!!!
+    updateDto: UpdateShopDto,
+  ) {
     const current = await this.repository.preload({
       id,
       ...updateDto,
@@ -38,7 +52,6 @@ export class ShopsService {
     return await this.repository.save(current);
   }
 
-  // COMPLETED
   async remove(id: number, brandId: number) {
     const result = await this.repository.delete({
       id: id,

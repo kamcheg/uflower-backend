@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
@@ -27,9 +28,20 @@ export class ShopsController {
     return this.shopsService.create(createShopDto, user.brand);
   }
 
+  @UseGuards(AuthGuard)
+  @Get()
+  findAll(@UserDecorator() user: UserPayload) {
+    return this.shopsService.findAll(user.brand);
+  }
+
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDto: UpdateShopDto) {
-    return this.shopsService.update(+id, updateDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateDto: UpdateShopDto,
+    @UserDecorator() user: UserPayload,
+  ) {
+    return this.shopsService.update(+id, user.brand, updateDto);
   }
 
   @UseGuards(AuthGuard)

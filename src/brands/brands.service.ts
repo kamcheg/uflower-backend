@@ -19,9 +19,6 @@ export class BrandsService {
 
   async findOne(brandId: UserPayload['brand']) {
     const current = await this.repository.findOne({
-      relations: {
-        shops: true,
-      },
       where: {
         id: brandId,
       },
