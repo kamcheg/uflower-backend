@@ -4,6 +4,7 @@ import {
   IsString,
   IsArray,
   IsOptional,
+  IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -17,19 +18,27 @@ export class CreateFlowerDto {
   @IsOptional()
   description: string;
 
-  @ApiProperty({ type: Number, example: 1 })
-  @IsNotEmpty()
-  @IsNumber()
-  sizeId: number;
-
-  // @ApiProperty({ type: Boolean, example: true })
-  // @IsBoolean()
-  // isActive: number;
-
   @ApiProperty({ type: Number, example: 1000 })
   @IsNotEmpty()
   @IsNumber()
   price: number;
+
+  @ApiProperty({ type: Boolean, example: true })
+  @IsBoolean()
+  isActive: boolean;
+
+  @ApiProperty({ type: Number, example: 60, default: 0 })
+  @IsNumber()
+  width: number;
+
+  @ApiProperty({ type: Number, example: 110, default: 0 })
+  @IsNumber()
+  height: number;
+
+  @ApiProperty({ type: Number, example: 1 })
+  @IsNotEmpty()
+  @IsNumber()
+  sizeId: number;
 
   @ApiProperty({ type: [Number], example: [1, 2, 3] })
   @IsArray()
