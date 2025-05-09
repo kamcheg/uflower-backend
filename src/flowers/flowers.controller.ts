@@ -17,9 +17,13 @@ import { UserPayload } from '../common/types';
 export class FlowersController {
   constructor(private readonly flowersService: FlowersService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createFlowerDto: CreateFlowerDto) {
-    return this.flowersService.create(createFlowerDto);
+  create(
+    @Body() createFlowerDto: CreateFlowerDto,
+    @UserDecorator() user: UserPayload,
+  ) {
+    return this.flowersService.create(createFlowerDto, user.brand);
   }
 
   @UseGuards(AuthGuard)

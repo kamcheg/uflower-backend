@@ -7,6 +7,8 @@ import { SizesService } from '../sizes/sizes.service';
 import { ReasonsService } from '../reasons/reasons.service';
 import { RecipientsService } from '../recipients/recipients.service';
 import { FlowerTypesService } from '../flower-types/flower-types.service';
+import { UserPayload } from '../common/types';
+import { BrandsService } from '../brands/brands.service';
 
 const scheme = {
   relations: {
@@ -26,9 +28,13 @@ export class FlowersService {
     private readonly reasonsService: ReasonsService,
     private readonly recipientsService: RecipientsService,
     private readonly flowerTypesService: FlowerTypesService,
+    private readonly brandsService: BrandsService,
   ) {}
 
-  async create(createFlowerDto: CreateFlowerDto) {
+  async create(
+    createFlowerDto: CreateFlowerDto,
+    brandId: UserPayload['brand'],
+  ) {
     const size = await this.sizesService.findOne(createFlowerDto.sizeId);
     const reasons = await this.reasonsService.findByIds(
       createFlowerDto.reasonIds,
@@ -39,9 +45,11 @@ export class FlowersService {
     const flowerTypes = await this.flowerTypesService.findByIds(
       createFlowerDto.flowerTypeIds,
     );
+    const brand = await this.brandsService.findOne(brandId);
 
     const newEl = this.repository.create({
       ...createFlowerDto,
+      brand,
       size,
       reasons,
       recipients,
