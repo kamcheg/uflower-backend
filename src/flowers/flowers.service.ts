@@ -97,17 +97,9 @@ export class FlowersService {
     updateFlowerDto: UpdateFlowerDto;
     brandId: UserPayload['brand'];
   }) {
-    // проверяю наличие по двум параметрам
-    await this.findOne(id, brandId);
+    const current = await this.findOne(id, brandId);
 
-    const current = await this.repository.preload({
-      id,
-      ...updateFlowerDto,
-    });
-
-    if (!current) {
-      throw new NotFoundException(`Flower with id ${id} not found`);
-    }
+    Object.assign(current, updateFlowerDto);
 
     if (updateFlowerDto.sizeId) {
       current.size = await this.sizesService.findOne(updateFlowerDto.sizeId);
