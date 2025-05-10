@@ -67,6 +67,9 @@ export class FlowersService {
         },
       },
       ...scheme,
+      order: {
+        createdAt: 'desc',
+      },
     });
   }
 
