@@ -9,6 +9,7 @@ import { RecipientsService } from '../recipients/recipients.service';
 import { FlowerTypesService } from '../flower-types/flower-types.service';
 import { UserPayload } from '../common/types';
 import { BrandsService } from '../brands/brands.service';
+import { UpdateFlowerDto } from './dto/update-flower.dto';
 
 const scheme = {
   relations: {
@@ -69,9 +70,14 @@ export class FlowersService {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, brandId: number) {
     const current = await this.repository.findOne({
-      where: { id },
+      where: {
+        id,
+        brand: {
+          id: brandId,
+        },
+      },
       ...scheme,
     });
 
@@ -82,9 +88,48 @@ export class FlowersService {
     return current;
   }
 
-  // update(id: number, updateFlowerDto: UpdateFlowerDto) {
-  //   return `This action updates a #${id} flower`;
-  // }
+  async update({
+    id,
+    brandId,
+    updateFlowerDto,
+  }: {
+    id: number;
+    updateFlowerDto: UpdateFlowerDto;
+    brandId: UserPayload['brand'];
+  }) {
+    // проверяю наличие по двум параметрам
+    await this.findOne(id, brandId);
+
+    const current = await this.repository.preload({
+      id,
+      ...updateFlowerDto,
+    });
+
+    if (!current) {
+      throw new NotFoundException(`Flower with id ${id} not found`);
+    }
+
+    if (updateFlowerDto.sizeId) {
+      current.size = await this.sizesService.findOne(updateFlowerDto.sizeId);
+    }
+    if (updateFlowerDto.reasonIds) {
+      current.reasons = await this.reasonsService.findByIds(
+        updateFlowerDto.reasonIds,
+      );
+    }
+    if (updateFlowerDto.recipientIds) {
+      current.recipients = await this.recipientsService.findByIds(
+        updateFlowerDto.recipientIds,
+      );
+    }
+    if (updateFlowerDto.flowerTypeIds) {
+      current.flowerTypes = await this.flowerTypesService.findByIds(
+        updateFlowerDto.flowerTypeIds,
+      );
+    }
+
+    return this.repository.save(current);
+  }
 
   remove(id: number) {
     return this.repository.delete(id);
