@@ -12,13 +12,13 @@ import { BrandsModule } from '../brands/brands.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Flower]),
     FlowerTypesModule,
     RecipientsModule,
     ReasonsModule,
     SizesModule,
     ImagesModule,
     BrandsModule,
-    TypeOrmModule.forFeature([Flower]),
   ],
   controllers: [FlowersController],
   providers: [FlowersService],

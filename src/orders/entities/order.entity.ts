@@ -1,6 +1,8 @@
 import { AbstractEntity } from '../../common/entities/abstract.entity';
-import { Column } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { OrderFlower } from '../../order-flowers/entities/order-flower.entity';
 
+@Entity()
 export class Order extends AbstractEntity {
   @Column()
   customerName: string;
@@ -22,4 +24,9 @@ export class Order extends AbstractEntity {
 
   @Column({ default: '' })
   comment: string;
+
+  @OneToMany(() => OrderFlower, (orderFlower) => orderFlower.order, {
+    cascade: true,
+  })
+  orderFlowers: OrderFlower[];
 }

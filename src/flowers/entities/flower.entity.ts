@@ -5,6 +5,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { Size } from '../../sizes/entities/size.entity';
 import { Reason } from '../../reasons/entities/reason.entity';
@@ -12,6 +13,7 @@ import { Recipient } from '../../recipients/entities/recipient.entity';
 import { FlowerType } from '../../flower-types/entities/flower-type.entity';
 import { AbstractEntity } from '../../common/entities/abstract.entity';
 import { Brand } from '../../brands/entities/brand.entity';
+import { OrderFlower } from '../../order-flowers/entities/order-flower.entity';
 
 @Entity()
 export class Flower extends AbstractEntity {
@@ -85,4 +87,7 @@ export class Flower extends AbstractEntity {
     },
   })
   flowerTypes: FlowerType[];
+
+  @OneToMany(() => OrderFlower, (orderFlower) => orderFlower.flower)
+  orderFlowers: OrderFlower[];
 }
