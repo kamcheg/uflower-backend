@@ -16,6 +16,10 @@ export class OrdersService {
   }
 
   findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      order: {
+        createdAt: 'desc',
+      },
+    });
   }
 }

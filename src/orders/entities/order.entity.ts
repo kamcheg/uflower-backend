@@ -27,6 +27,7 @@ export class Order extends AbstractEntity {
 
   @OneToMany(() => OrderFlower, (orderFlower) => orderFlower.order, {
     cascade: true,
+    eager: true,
   })
   orderFlowers: OrderFlower[];
 }
