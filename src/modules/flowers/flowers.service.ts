@@ -73,6 +73,21 @@ export class FlowersService {
     });
   }
 
+  findForClient(slug: string) {
+    return this.repository.find({
+      where: {
+        brand: {
+          slug,
+        },
+        isActive: true,
+      },
+      ...scheme,
+      order: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
   async findOne(id: number, brandId: number) {
     const current = await this.repository.findOne({
       where: {

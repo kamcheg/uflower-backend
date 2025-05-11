@@ -7,6 +7,7 @@ import {
   Delete,
   UseGuards,
   Patch,
+  Headers,
 } from '@nestjs/common';
 import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
@@ -29,9 +30,14 @@ export class FlowersController {
   }
 
   @UseGuards(AuthGuard)
-  @Get()
-  findAll(@UserDecorator() user: UserPayload) {
+  @Get('admin')
+  findAllForAdmin(@UserDecorator() user: UserPayload) {
     return this.flowersService.findAll(user.brand);
+  }
+
+  @Get()
+  findAll(@Headers('brand-slug') brandSlug: string) {
+    return this.flowersService.findForClient(brandSlug);
   }
 
   // @Get(':id')
