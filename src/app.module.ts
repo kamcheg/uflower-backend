@@ -1,20 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SizesModule } from './sizes/sizes.module';
-import { RecipientsModule } from './recipients/recipients.module';
-import { FlowerTypesModule } from './flower-types/flower-types.module';
-import { ReasonsModule } from './reasons/reasons.module';
-import { FlowersModule } from './flowers/flowers.module';
-import { ImagesModule } from './images/images.module';
-import { BrandsModule } from './brands/brands.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { ShopsModule } from './shops/shops.module';
+import { SizesModule } from './modules/sizes/sizes.module';
+import { RecipientsModule } from './modules/recipients/recipients.module';
+import { FlowerTypesModule } from './modules/flower-types/flower-types.module';
+import { ReasonsModule } from './modules/reasons/reasons.module';
+import { FlowersModule } from './modules/flowers/flowers.module';
+import { ImagesModule } from './modules/images/images.module';
+import { BrandsModule } from './modules/brands/brands.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { ShopsModule } from './modules/shops/shops.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { OrdersModule } from './orders/orders.module';
-import { OrderFlowersModule } from './order-flowers/order-flowers.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
 
 @Module({
   imports: [
@@ -45,6 +44,5 @@ import { OrderFlowersModule } from './order-flowers/order-flowers.module';
     OrdersModule,
     OrderFlowersModule,
   ],
-  controllers: [AppController],
 })
 export class AppModule {}
