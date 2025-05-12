@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlowerDto } from './dto/create-flower.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Flower } from './entities/flower.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SizesService } from '../sizes/sizes.service';
@@ -73,11 +73,46 @@ export class FlowersService {
     });
   }
 
-  findForClient(slug: string) {
-    return this.repository.find({
+  async findForClient({
+    brandSlug,
+    page,
+    limit,
+  }: {
+    brandSlug: string;
+    page: number;
+    limit: number;
+  }) {
+    const [data, total] = await this.repository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
       where: {
         brand: {
-          slug,
+          slug: brandSlug,
+        },
+        isActive: true,
+      },
+      ...scheme,
+      order: {
+        createdAt: 'desc',
+      },
+    });
+
+    return {
+      data,
+      pagination: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  findByIds({ brandSlug, ids }: { brandSlug: string; ids: string[] }) {
+    return this.repository.find({
+      where: {
+        id: In(ids),
+        brand: {
+          slug: brandSlug,
         },
         isActive: true,
       },
