@@ -50,7 +50,6 @@ export class FlowersController {
     @Headers('brand-slug') brandSlug: string,
     @Query('ids[]') ids: string[],
   ) {
-    console.log('ids', ids);
     return this.flowersService.findByIds({ brandSlug, ids });
   }
 
