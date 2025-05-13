@@ -50,6 +50,9 @@ export class FlowersController {
     @Headers('brand-slug') brandSlug: string,
     @Query('ids[]') ids: string[],
   ) {
+    if (!Array.isArray(ids)) {
+      ids = [ids]; // Преобразуем в массив, если получен один элемент
+    }
     return this.flowersService.findByIds({ brandSlug, ids });
   }
 
