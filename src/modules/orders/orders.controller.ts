@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 
@@ -12,6 +19,7 @@ export class OrdersController {
   }
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   findAll() {
     return this.ordersService.findAll();
   }
