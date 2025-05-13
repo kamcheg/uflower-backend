@@ -2,7 +2,7 @@ import { IsNumber, IsPositive } from 'class-validator';
 
 export class CreateOrderFlowerDto {
   @IsNumber()
-  flowerId: string;
+  flowerId: number;
 
   @IsNumber()
   @IsPositive()
