@@ -1,4 +1,3 @@
-// TODO
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { Size } from '../modules/sizes/entities/size.entity';
