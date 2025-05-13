@@ -3,6 +3,8 @@ import { DataSource } from 'typeorm';
 import { Size } from '../modules/sizes/entities/size.entity';
 import { FlowerType } from '../modules/flower-types/entities/flower-type.entity';
 import { Flower } from '../modules/flowers/entities/flower.entity';
+import { Recipient } from '../modules/recipients/entities/recipient.entity';
+import { Reason } from '../modules/reasons/entities/reason.entity';
 
 const AppDataSource = new DataSource({
   type: 'mysql',
@@ -19,6 +21,8 @@ const conditions = {
   sizes: false,
   flowerTypes: false,
   flowers: false,
+  recipients: false,
+  reasons: false,
 };
 
 async function seed() {
@@ -32,6 +36,12 @@ async function seed() {
   }
   if (conditions.flowers) {
     await initFlowers();
+  }
+  if (conditions.recipients) {
+    await initRecipients();
+  }
+  if (conditions.reasons) {
+    await initReasons();
   }
 
   await AppDataSource.destroy();
@@ -63,6 +73,39 @@ async function initSizes() {
       image:
         'https://uflor.ru/upload/uf/442/p0uxdb675op0xnac0jdv9mf0zcgzimik.svg',
     },
+  ]);
+}
+
+async function initReasons() {
+  const repo = AppDataSource.getRepository(Reason);
+
+  await repo.save([
+    { title: 'Свадьба' },
+    { title: 'Юбилей' },
+    { title: 'Свидание' },
+    { title: 'Годовщина свадьбы' },
+    { title: 'День рождения' },
+    { title: 'Выписка - Мальчик' },
+    { title: 'Выписка - Девочка' },
+  ]);
+}
+
+async function initRecipients() {
+  const repo = AppDataSource.getRepository(Recipient);
+
+  await repo.save([
+    { title: 'Маме' },
+    { title: 'Ребёнку' },
+    { title: 'Руководителю - Мужчине' },
+    { title: 'Девушке' },
+    { title: 'Семье' },
+    { title: 'Учителю' },
+    { title: 'Женщине' },
+    { title: 'Коллективу' },
+    { title: 'Классный руководитель' },
+    { title: 'Мужчине' },
+    { title: 'Руководителю - Женщине' },
+    { title: 'Маме и дочке' },
   ]);
 }
 
