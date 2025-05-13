@@ -8,6 +8,8 @@ import { Reason } from '../modules/reasons/entities/reason.entity';
 import { Brand } from '../modules/brands/entities/brand.entity';
 import { Shop } from '../modules/shops/entities/shop.entity';
 import { User } from '../modules/users/entities/user.entity';
+import { OrderFlower } from '../modules/order-flowers/entities/order-flower.entity';
+import { Order } from '../modules/orders/entities/order.entity';
 
 const AppDataSource = new DataSource({
   type: 'mysql',
@@ -23,6 +25,8 @@ const AppDataSource = new DataSource({
 async function seed() {
   await AppDataSource.initialize();
 
+  await AppDataSource.getRepository(OrderFlower).delete({});
+  await AppDataSource.getRepository(Order).delete({});
   await AppDataSource.getRepository(User).delete({});
   await AppDataSource.getRepository(Shop).delete({});
   await AppDataSource.getRepository(Flower).delete({});
