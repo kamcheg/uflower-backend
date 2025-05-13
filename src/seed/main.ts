@@ -5,6 +5,9 @@ import { FlowerType } from '../modules/flower-types/entities/flower-type.entity'
 import { Flower } from '../modules/flowers/entities/flower.entity';
 import { Recipient } from '../modules/recipients/entities/recipient.entity';
 import { Reason } from '../modules/reasons/entities/reason.entity';
+import { Brand } from '../modules/brands/entities/brand.entity';
+import { Shop } from '../modules/shops/entities/shop.entity';
+import { User } from '../modules/users/entities/user.entity';
 
 const AppDataSource = new DataSource({
   type: 'mysql',
@@ -12,37 +15,31 @@ const AppDataSource = new DataSource({
   port: 3306,
   username: 'root',
   password: '',
-  database: 'todo',
+  database: 'fl-store',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: true,
 });
 
-const conditions = {
-  sizes: false,
-  flowerTypes: false,
-  flowers: false,
-  recipients: false,
-  reasons: false,
-};
-
 async function seed() {
   await AppDataSource.initialize();
 
-  if (conditions.sizes) {
-    await initSizes();
-  }
-  if (conditions.flowerTypes) {
-    await initFlowerTypes();
-  }
-  if (conditions.flowers) {
-    await initFlowers();
-  }
-  if (conditions.recipients) {
-    await initRecipients();
-  }
-  if (conditions.reasons) {
-    await initReasons();
-  }
+  await AppDataSource.getRepository(User).delete({});
+  await AppDataSource.getRepository(Shop).delete({});
+  await AppDataSource.getRepository(Flower).delete({});
+  await AppDataSource.getRepository(Brand).delete({});
+  await AppDataSource.getRepository(FlowerType).delete({});
+  await AppDataSource.getRepository(Recipient).delete({});
+  await AppDataSource.getRepository(Reason).delete({});
+  await AppDataSource.getRepository(Size).delete({});
+
+  await initSizes();
+  await initFlowerTypes();
+  await initRecipients();
+  await initReasons();
+  await initBrands();
+  await initShops();
+  await initFlowers();
+  await initUsers();
 
   await AppDataSource.destroy();
 }
@@ -50,25 +47,29 @@ async function seed() {
 seed();
 
 async function initSizes() {
-  const repo = AppDataSource.getRepository(Size);
+  await AppDataSource.getRepository(Size).delete({});
 
-  await repo.save([
+  await AppDataSource.getRepository(Size).save([
     {
+      id: 1,
       title: 'Стандарт',
       image:
         'https://uflor.ru/upload/uf/99d/7r1i43d0ct21y03e81bfkl3u6bhali1j.svg',
     },
     {
+      id: 2,
       title: 'Стандарт +',
       image:
         'https://uflor.ru/upload/uf/b7f/592vaa3hmhmdx42havleol3a484d46ps.svg',
     },
     {
+      id: 3,
       title: 'Большой',
       image:
         'https://uflor.ru/upload/uf/04a/bzz1i3vkvec0pwelj6p0m9wloz1n2rt3.svg',
     },
     {
+      id: 4,
       title: 'Огромный',
       image:
         'https://uflor.ru/upload/uf/442/p0uxdb675op0xnac0jdv9mf0zcgzimik.svg',
@@ -80,13 +81,13 @@ async function initReasons() {
   const repo = AppDataSource.getRepository(Reason);
 
   await repo.save([
-    { title: 'Свадьба' },
-    { title: 'Юбилей' },
-    { title: 'Свидание' },
-    { title: 'Годовщина свадьбы' },
-    { title: 'День рождения' },
-    { title: 'Выписка - Мальчик' },
-    { title: 'Выписка - Девочка' },
+    { id: 1, title: 'Свадьба' },
+    { id: 2, title: 'Юбилей' },
+    { id: 3, title: 'Свидание' },
+    { id: 4, title: 'Годовщина свадьбы' },
+    { id: 5, title: 'День рождения' },
+    { id: 6, title: 'Выписка - Мальчик' },
+    { id: 7, title: 'Выписка - Девочка' },
   ]);
 }
 
@@ -94,50 +95,88 @@ async function initRecipients() {
   const repo = AppDataSource.getRepository(Recipient);
 
   await repo.save([
-    { title: 'Маме' },
-    { title: 'Ребёнку' },
-    { title: 'Руководителю - Мужчине' },
-    { title: 'Девушке' },
-    { title: 'Семье' },
-    { title: 'Учителю' },
-    { title: 'Женщине' },
-    { title: 'Коллективу' },
-    { title: 'Классный руководитель' },
-    { title: 'Мужчине' },
-    { title: 'Руководителю - Женщине' },
-    { title: 'Маме и дочке' },
+    { id: 1, title: 'Маме' },
+    { id: 2, title: 'Ребёнку' },
+    { id: 3, title: 'Руководителю - Мужчине' },
+    { id: 4, title: 'Девушке' },
+    { id: 5, title: 'Семье' },
+    { id: 6, title: 'Учителю' },
+    { id: 7, title: 'Женщине' },
+    { id: 8, title: 'Коллективу' },
+    { id: 9, title: 'Классный руководитель' },
+    { id: 10, title: 'Мужчине' },
+    { id: 11, title: 'Руководителю - Женщине' },
+    { id: 12, title: 'Маме и дочке' },
   ]);
 }
 
 async function initFlowerTypes() {
-  const repo = AppDataSource.getRepository(FlowerType);
+  await AppDataSource.getRepository(FlowerType).save([
+    { id: 1, title: 'Розы' },
+    { id: 2, title: 'Гипсофила' },
+    { id: 3, title: 'Ранункулюс' },
+    { id: 4, title: 'Роза кустовая' },
+    { id: 5, title: 'Ирис' },
+    { id: 6, title: 'Сирень' },
+    { id: 7, title: 'Роза пионовидная' },
+    { id: 8, title: 'Лилии' },
+    { id: 9, title: 'Тюльпаны' },
+    { id: 10, title: 'Альстромерия' },
+    { id: 11, title: 'Лизиантусы' },
+    { id: 12, title: 'Тюльпаны пионовидные' },
+    { id: 13, title: 'Анемоны' },
+    { id: 14, title: 'Ландыши' },
+    { id: 15, title: 'Фрезия' },
+    { id: 16, title: 'Гиацинт' },
+    { id: 17, title: 'Мимозы' },
+    { id: 18, title: 'Хризантемы' },
+    { id: 19, title: 'Герберы' },
+    { id: 20, title: 'Орхидея' },
+    { id: 21, title: 'Эустома' },
+    { id: 22, title: 'Гвоздики' },
+    { id: 23, title: 'Подсолнух' },
+    { id: 24, title: 'Гортензия' },
+    { id: 25, title: 'Ромашки' },
+  ]);
+}
+
+async function initBrands() {
+  const repo = AppDataSource.getRepository(Brand);
 
   await repo.save([
-    { title: 'Розы' },
-    { title: 'Гипсофила' },
-    { title: 'Ранункулюс' },
-    { title: 'Роза кустовая' },
-    { title: 'Ирис' },
-    { title: 'Сирень' },
-    { title: 'Роза пионовидная' },
-    { title: 'Лилии' },
-    { title: 'Тюльпаны' },
-    { title: 'Альстромерия' },
-    { title: 'Лизиантусы' },
-    { title: 'Тюльпаны пионовидные' },
-    { title: 'Анемоны' },
-    { title: 'Ландыши' },
-    { title: 'Фрезия' },
-    { title: 'Гиацинт' },
-    { title: 'Мимозы' },
-    { title: 'Хризантемы' },
-    { title: 'Герберы' },
-    { title: 'Орхидея' },
-    { title: 'Эустома' },
-    { title: 'Гвоздики' },
-    { title: 'Подсолнух' },
-    { title: 'Гортензия' },
-    { title: 'Ромашки' },
+    {
+      id: 1,
+      name: 'Zizi',
+      slug: 'zizi',
+      email: 'zizi@mail.ru',
+      schedule: {
+        from: '09:00',
+        to: '21:00',
+        isAlwaysOpened: false,
+      },
+      sitePhone: '+7(996) 511 03-76',
+      logo: '',
+    },
+  ]);
+}
+
+async function initShops() {
+  const repo = AppDataSource.getRepository(Shop);
+
+  await repo.save([
+    {
+      phone: '+7 (999) 574 22-22',
+      address: 'Гамидова 121',
+      schedule: {
+        from: '09:00',
+        to: '21:00',
+        isAlwaysOpened: false,
+      },
+      coords: [42.23524, 54.23435],
+      brand: {
+        id: 1,
+      },
+    },
   ]);
 }
 
@@ -160,7 +199,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -178,7 +217,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -196,7 +235,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -214,7 +253,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -232,7 +271,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -250,7 +289,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -268,7 +307,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -286,7 +325,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -304,7 +343,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -322,7 +361,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -340,7 +379,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -376,7 +415,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -394,7 +433,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -412,7 +451,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -448,7 +487,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -484,7 +523,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -502,7 +541,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -520,7 +559,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -538,7 +577,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -556,7 +595,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -574,7 +613,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -610,7 +649,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -646,7 +685,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -664,7 +703,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -682,7 +721,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -700,7 +739,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -718,7 +757,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -736,7 +775,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -772,7 +811,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -826,7 +865,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -844,7 +883,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -862,7 +901,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -916,7 +955,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -934,7 +973,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
       },
     },
     {
@@ -952,7 +991,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 14,
+        id: 3,
       },
     },
     {
@@ -988,7 +1027,7 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 15,
+        id: 4,
       },
     },
     {
@@ -1006,7 +1045,20 @@ async function initFlowers() {
         id: 1,
       },
       size: {
-        id: 13,
+        id: 2,
+      },
+    },
+  ]);
+}
+
+async function initUsers() {
+  await AppDataSource.getRepository(User).save([
+    {
+      id: 1,
+      email: 'kamil@mail.ru',
+      password: '66viboto66',
+      brand: {
+        id: 1,
       },
     },
   ]);
