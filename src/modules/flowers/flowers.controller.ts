@@ -48,18 +48,13 @@ export class FlowersController {
   @Get('find-by-ids')
   findByIds(
     @Headers('brand-slug') brandSlug: string,
-    @Query('ids[]') ids: string[],
+    @Query('ids[]') ids: string[] | string,
   ) {
-    if (!Array.isArray(ids)) {
-      ids = [ids]; // Преобразуем в массив, если получен один элемент
-    }
-    return this.flowersService.findByIds({ brandSlug, ids });
+    return this.flowersService.findByIds({
+      brandSlug,
+      ids: toArray<string>(ids),
+    });
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.flowersService.findOne(+id);
-  // }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
