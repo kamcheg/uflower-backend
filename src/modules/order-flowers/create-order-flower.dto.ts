@@ -6,9 +6,5 @@ export class CreateOrderFlowerDto {
 
   @IsNumber()
   @IsPositive()
-  price: number;
-
-  @IsNumber()
-  @IsPositive()
   quantity: number;
 }

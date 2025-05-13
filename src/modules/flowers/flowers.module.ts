@@ -22,5 +22,6 @@ import { BrandsModule } from '../brands/brands.module';
   ],
   controllers: [FlowersController],
   providers: [FlowersService],
+  exports: [TypeOrmModule],
 })
 export class FlowersModule {}
