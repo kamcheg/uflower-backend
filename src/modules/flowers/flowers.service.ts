@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlowerDto } from './dto/create-flower.dto';
-import { In, Repository } from 'typeorm';
+import { Between, In, Repository } from 'typeorm';
 import { Flower } from './entities/flower.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SizesService } from '../sizes/sizes.service';
@@ -10,6 +10,7 @@ import { FlowerTypesService } from '../flower-types/flower-types.service';
 import { UserPayload } from '../../common/types';
 import { BrandsService } from '../brands/brands.service';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
+import { FlowersFilterDto } from './dto/query-flower.dto';
 
 const scheme = {
   relations: {
@@ -75,13 +76,22 @@ export class FlowersService {
 
   async findForClient({
     brandSlug,
-    page,
-    limit,
+    filters,
   }: {
     brandSlug: string;
-    page: number;
-    limit: number;
+    filters: FlowersFilterDto;
   }) {
+    const {
+      page,
+      limit,
+      sizes,
+      composition,
+      reasons,
+      recipients,
+      priceMin,
+      priceMax,
+    } = filters;
+
     const [data, total] = await this.repository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
@@ -89,6 +99,19 @@ export class FlowersService {
         brand: {
           slug: brandSlug,
         },
+        size: {
+          id: sizes?.length ? In(sizes) : undefined,
+        },
+        flowerTypes: {
+          id: composition?.length ? In(composition) : undefined,
+        },
+        reasons: {
+          id: reasons?.length ? In(reasons) : undefined,
+        },
+        recipients: {
+          id: recipients?.length ? In(recipients) : undefined,
+        },
+        price: Between(priceMin || 0, priceMax || 100000000),
         isActive: true,
       },
       ...scheme,

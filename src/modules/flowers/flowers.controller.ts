@@ -16,7 +16,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { UserDecorator } from '../auth/decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
-import { toArray } from '../../common/utils/toArray';
+import { FlowersFilterDto } from './dto/query-flower.dto';
 
 @Controller('flowers')
 export class FlowersController {
@@ -39,21 +39,20 @@ export class FlowersController {
 
   @Get()
   findAll(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query() filters: FlowersFilterDto,
     @Headers('brand-slug') brandSlug: string,
   ) {
-    return this.flowersService.findForClient({ brandSlug, page, limit });
+    return this.flowersService.findForClient({ brandSlug, filters });
   }
 
   @Get('find-by-ids')
   findByIds(
     @Headers('brand-slug') brandSlug: string,
-    @Query('ids[]') ids: string[] | string,
+    @Query('ids') ids: string[],
   ) {
     return this.flowersService.findByIds({
       brandSlug,
-      ids: toArray<string>(ids),
+      ids: ids,
     });
   }
 
