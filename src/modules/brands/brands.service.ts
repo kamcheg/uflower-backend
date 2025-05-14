@@ -43,6 +43,20 @@ export class BrandsService {
     return current;
   }
 
+  async findOneBySlug(slug: string) {
+    const current = await this.repository.findOne({
+      where: {
+        slug,
+      },
+    });
+
+    if (!current) {
+      throw new NotFoundException(`Brand with slug ${slug} not found`);
+    }
+
+    return current;
+  }
+
   async update(brandId: number, dto: UpdateBrandDto) {
     const current = await this.repository.preload({
       id: brandId,
