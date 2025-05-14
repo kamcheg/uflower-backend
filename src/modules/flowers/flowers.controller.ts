@@ -48,11 +48,11 @@ export class FlowersController {
   @Get('find-by-ids')
   findByIds(
     @Headers('brand-slug') brandSlug: string,
-    @Query('ids') ids: string[],
+    @Query('ids') ids: string[] = [],
   ) {
     return this.flowersService.findByIds({
       brandSlug,
-      ids: ids,
+      ids,
     });
   }
 
