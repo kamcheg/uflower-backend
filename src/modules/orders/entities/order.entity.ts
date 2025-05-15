@@ -45,7 +45,7 @@ export class Order extends AbstractEntity {
       .toNumber();
   }
 
-  @ManyToOne(() => Brand, (brand) => brand.orders)
+  @ManyToOne(() => Brand, (brand) => brand.orders, { nullable: false })
   @JoinColumn({ name: 'brand_id' })
   brand: Brand;
 }

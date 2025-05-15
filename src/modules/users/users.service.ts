@@ -24,4 +24,12 @@ export class UsersService {
 
     return user;
   }
+
+  findUsersByBrand({ id, slug }: { id?: number; slug?: string }) {
+    return this.repository.find({
+      where: {
+        brand: [{ id }, { slug }],
+      },
+    });
+  }
 }

@@ -7,6 +7,8 @@ import { Flower } from '../flowers/entities/flower.entity';
 import { OrderFlower } from '../order-flowers/entities/order-flower.entity';
 import { TelegramService } from '../telegram/telegram.service';
 import { formatOrderMessage } from './orders.functions';
+import { BrandsService } from '../brands/brands.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class OrdersService {
@@ -17,17 +19,23 @@ export class OrdersService {
     @InjectRepository(Flower)
     private flowerRepository: Repository<Flower>,
 
+    private readonly usersService: UsersService,
+
     private readonly telegramService: TelegramService,
+
+    private readonly brandsService: BrandsService,
   ) {}
 
-  async create(dto: CreateOrderDto) {
+  async create({ dto, brandSlug }: { dto: CreateOrderDto; brandSlug: string }) {
     const flowers: Flower[] = [];
 
     const orderFlowers = await Promise.all(
       dto.orderFlowers.map(async (ofDto) => {
         const flower = await this.flowerRepository.findOneByOrFail({
           id: ofDto.flowerId,
-          // TODO add brand
+          brand: {
+            slug: brandSlug,
+          },
         });
 
         flowers.push(flower);
@@ -41,15 +49,26 @@ export class OrdersService {
       }),
     );
 
-    await this.telegramService.sendMessage(
-      871034189, // TODO!!!
-      formatOrderMessage(dto, flowers),
-    );
+    const brand = await this.brandsService.findOneBySlug(brandSlug);
 
     const order = this.orderRepository.create({
       ...dto,
+      brand: brand,
       orderFlowers,
     });
+
+    const users = await this.usersService.findUsersByBrand({ id: brand.id });
+
+    await Promise.all(
+      users
+        .filter((i) => !!i.telegramChatId)
+        .map((user) => {
+          return this.telegramService.sendMessage(
+            user.telegramChatId!,
+            formatOrderMessage(dto, flowers),
+          );
+        }),
+    );
 
     return this.orderRepository.save(order);
   }

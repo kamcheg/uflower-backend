@@ -33,7 +33,7 @@ export class TelegramService {
 
     if (!user) return false;
 
-    user.telegramChatId = String(chatId);
+    user.telegramChatId = chatId;
     user.telegramToken = ''; // удаляем одноразовый токен
     await this.userRepository.save(user);
 

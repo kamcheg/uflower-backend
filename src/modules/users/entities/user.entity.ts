@@ -18,8 +18,8 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
-  telegramChatId?: string;
+  @Column({ nullable: true, type: 'bigint' })
+  telegramChatId?: number;
 
   @Column({ nullable: true })
   telegramToken?: string;
