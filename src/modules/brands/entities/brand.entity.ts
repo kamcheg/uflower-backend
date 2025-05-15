@@ -4,6 +4,7 @@ import { Flower } from '../../flowers/entities/flower.entity';
 import { User } from '../../users/entities/user.entity';
 import { IWorkTime } from '../../../common/types';
 import { Shop } from '../../shops/entities/shop.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity()
 export class Brand extends AbstractEntity {
@@ -33,4 +34,7 @@ export class Brand extends AbstractEntity {
 
   @OneToMany(() => Shop, (shop) => shop.brand)
   shops: Shop[];
+
+  @OneToMany(() => Order, (order) => order.brand)
+  orders: Order[];
 }

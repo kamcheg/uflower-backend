@@ -1,8 +1,9 @@
 import { AbstractEntity } from '../../../common/entities/abstract.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { OrderFlower } from '../../order-flowers/entities/order-flower.entity';
 import { Expose } from 'class-transformer';
 import Decimal from 'decimal.js';
+import { Brand } from '../../brands/entities/brand.entity';
 
 @Entity()
 export class Order extends AbstractEntity {
@@ -43,4 +44,8 @@ export class Order extends AbstractEntity {
       }, new Decimal(0))
       .toNumber();
   }
+
+  @ManyToOne(() => Brand, (brand) => brand.orders)
+  @JoinColumn({ name: 'brand_id' })
+  brand: Brand;
 }
