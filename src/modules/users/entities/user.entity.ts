@@ -18,6 +18,12 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ nullable: true })
+  telegramChatId?: string;
+
+  @Column({ nullable: true })
+  telegramToken?: string;
+
   @ManyToOne(() => Brand, (brand) => brand.users)
   @JoinColumn({ name: 'brand_id' })
   brand: Brand;

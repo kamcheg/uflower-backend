@@ -15,6 +15,7 @@ import { join } from 'path';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TelegramModule } from './modules/telegram/telegram.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ShopsModule,
     OrdersModule,
     OrderFlowersModule,
+    TelegramModule,
   ],
 })
 export class AppModule {}
