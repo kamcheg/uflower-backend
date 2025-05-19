@@ -5,6 +5,8 @@ import {
   IsArray,
   IsOptional,
   IsBoolean,
+  Min,
+  Max,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -41,6 +43,8 @@ export class CreateFlowerDto {
 
   @ApiProperty({ type: Number, example: 11, default: 0 })
   @IsNumber()
+  @Min(-100000)
+  @Max(100000)
   priority: number;
 
   @ApiProperty({ type: Number, example: 1 })

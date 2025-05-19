@@ -35,6 +35,9 @@ export class Flower extends AbstractEntity {
   @Column({ default: 0 })
   height: number;
 
+  @Column({ default: 0 })
+  priority: number;
+
   @Column({ type: 'json' })
   images: string[];
 
