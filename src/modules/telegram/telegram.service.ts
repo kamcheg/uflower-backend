@@ -1,4 +1,3 @@
-// telegram.service.ts
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { InjectRepository } from '@nestjs/typeorm';
