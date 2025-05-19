@@ -27,6 +27,10 @@ export class CreateFlowerDto {
   @IsBoolean()
   isActive: boolean;
 
+  @ApiProperty({ type: Boolean, example: true })
+  @IsBoolean()
+  inStock: boolean;
+
   @ApiProperty({ type: Number, example: 60, default: 0 })
   @IsNumber()
   width: number;
@@ -34,6 +38,10 @@ export class CreateFlowerDto {
   @ApiProperty({ type: Number, example: 110, default: 0 })
   @IsNumber()
   height: number;
+
+  @ApiProperty({ type: Number, example: 11, default: 0 })
+  @IsNumber()
+  priority: number;
 
   @ApiProperty({ type: Number, example: 1 })
   @IsNotEmpty()
