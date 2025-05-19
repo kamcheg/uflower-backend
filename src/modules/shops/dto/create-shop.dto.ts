@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Matches,
   ValidateNested,
 } from 'class-validator';
 import { IWorkTime } from '../../../common/types';
@@ -25,6 +26,7 @@ class ScheduleDto implements IWorkTime {
 export class CreateShopDto {
   @IsNotEmpty()
   @IsString()
+  @Matches(/^7\d{10}$/, { message: 'Invalid phone number format' })
   phone: string;
 
   @IsNotEmpty()

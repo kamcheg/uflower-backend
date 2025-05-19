@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsString,
+  Matches,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -15,6 +16,7 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   @IsString()
+  @Matches(/^7\d{10}$/, { message: 'Invalid phone number format' })
   customerPhone: string;
 
   @IsString()
@@ -27,6 +29,7 @@ export class CreateOrderDto {
   recipientName: string;
 
   @IsString()
+  @Matches(/^7\d{10}$/, { message: 'Invalid phone number format' })
   recipientPhone: string;
 
   @IsString()

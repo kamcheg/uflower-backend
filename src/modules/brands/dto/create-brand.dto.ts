@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MinLength,
+} from 'class-validator';
 import { IWorkTime } from '../../../common/types';
 
 export class CreateBrandDto {
@@ -17,6 +23,7 @@ export class CreateBrandDto {
 
   @IsNotEmpty()
   @IsString()
+  @Matches(/^7\d{10}$/, { message: 'Invalid phone number format' })
   sitePhone: string;
 
   @IsNotEmpty()
