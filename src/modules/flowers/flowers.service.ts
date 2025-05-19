@@ -116,6 +116,7 @@ export class FlowersService {
       },
       ...scheme,
       order: {
+        inStock: 'desc',
         createdAt: 'desc',
       },
     });
@@ -141,6 +142,7 @@ export class FlowersService {
       },
       ...scheme,
       order: {
+        inStock: 'desc',
         createdAt: 'desc',
       },
     });
