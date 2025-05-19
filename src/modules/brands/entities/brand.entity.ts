@@ -26,13 +26,19 @@ export class Brand extends AbstractEntity {
   @Column({ type: 'varchar', nullable: true })
   logo: string | null;
 
+  @Column({ type: 'varchar' })
+  aboutTitle: string;
+
+  @Column({ type: 'varchar' })
+  aboutDescription: string;
+
   @OneToMany(() => Flower, (flower) => flower.brand)
   flowers: Flower[];
 
   @OneToMany(() => User, (user) => user.brand)
   users: User[];
 
-  @OneToMany(() => Shop, (shop) => shop.brand)
+  @OneToMany(() => Shop, (shop) => shop.brand, { eager: true })
   shops: Shop[];
 
   @OneToMany(() => Order, (order) => order.brand)

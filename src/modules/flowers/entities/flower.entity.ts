@@ -38,6 +38,9 @@ export class Flower extends AbstractEntity {
   @Column({ type: 'json' })
   images: string[];
 
+  @Column({ default: false })
+  inStock: boolean;
+
   @ManyToOne(() => Size, (size) => size.flowers)
   @JoinColumn({ name: 'size_id' })
   size: Size;
