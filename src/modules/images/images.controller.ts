@@ -24,15 +24,19 @@ export class ImagesController {
 
     await mkdir(uploadsDir, { recursive: true });
 
+    const optimize = req.query.optimize !== 'false';
     const fileName = `${randomUUID()}.webp`;
     const filePath = join(uploadsDir, fileName);
 
-    const webpBuffer = await sharp(file.buffer)
-      .resize({ width: 1200, withoutEnlargement: true })
-      .webp({ quality: 80 })
-      .toBuffer();
-
-    await writeFile(filePath, webpBuffer);
+    if (optimize) {
+      const webpBuffer = await sharp(file.buffer)
+        .resize({ width: 1200, withoutEnlargement: true })
+        .webp({ quality: 80 })
+        .toBuffer();
+      await writeFile(filePath, webpBuffer);
+    } else {
+      await writeFile(filePath, file.buffer);
+    }
 
     const host = req.protocol + '://' + req.get('host');
     const fileUrl = `${host}/uploads/${fileName}`;
