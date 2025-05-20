@@ -21,7 +21,7 @@ export class User {
   @Column({ nullable: true, type: 'bigint' })
   telegramChatId?: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   telegramToken?: string;
 
   @ManyToOne(() => Brand, (brand) => brand.users)

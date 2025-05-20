@@ -2,8 +2,6 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { TelegramService } from './telegram.service';
 import { TelegramUpdate } from './telegram.types';
 
-const userStates = new Map<number, 'awaiting_token' | null>();
-
 @Controller('telegram')
 export class TelegramController {
   constructor(private readonly telegramService: TelegramService) {}
@@ -16,18 +14,19 @@ export class TelegramController {
     const chatId: number = message.chat.id;
     const text: string = message.text.trim();
 
-    if (text === '/start') {
-      userStates.set(chatId, 'awaiting_token');
-      await this.telegramService.sendMessage(
-        chatId,
-        '🔑 Пожалуйста, введите токен, который вы видите в личном кабинете',
-      );
-      return;
-    }
+    // Обработка команды /start с токеном
+    if (text.startsWith('/start')) {
+      const parts = text.split(' ');
+      const token = parts[1];
 
-    const state = userStates.get(chatId);
-    if (state === 'awaiting_token') {
-      const token = text;
+      if (!token) {
+        await this.telegramService.sendMessage(
+          chatId,
+          '❌ Токен не найден. Пожалуйста, перейдите по правильной ссылке из личного кабинета.',
+        );
+        return;
+      }
+
       const success = await this.telegramService.linkChatIdToUser(
         token,
         chatId,
@@ -38,19 +37,20 @@ export class TelegramController {
           chatId,
           '✅ Telegram успешно привязан к вашему аккаунту!',
         );
-        userStates.delete(chatId);
       } else {
         await this.telegramService.sendMessage(
           chatId,
-          '❌ Неверный токен. Попробуйте снова.',
+          '❌ Неверный токен. Убедитесь, что вы используете ссылку из личного кабинета.',
         );
       }
+
       return;
     }
 
+    // Поведение по умолчанию
     await this.telegramService.sendMessage(
       chatId,
-      '🤖 Напишите /start чтобы привязать Telegram.',
+      '🤖 Для привязки аккаунта перейдите по ссылке из личного кабинета.',
     );
   }
 }
