@@ -4,12 +4,17 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPayload } from '../../common/types';
 import { v4 as uuidv4 } from 'uuid';
+import { CreateUserDto } from './dto/create-user.dto';
+import { hash } from 'bcrypt';
+import { BrandsService } from '../brands/brands.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private repository: Repository<User>,
+
+    private readonly brandsService: BrandsService,
   ) {}
 
   async findOne({ email }: { email?: string; id?: number }) {
@@ -33,6 +38,21 @@ export class UsersService {
         brand: [{ id }, { slug }],
       },
     });
+  }
+
+  async create(dto: CreateUserDto) {
+    const password = await hash(dto.password, 4);
+
+    const brand = await this.brandsService.findOne(dto.brandId);
+
+    const newUser = {
+      email: dto.email,
+      password,
+      brand: brand,
+    };
+
+    this.repository.create(newUser);
+    return this.repository.save(newUser);
   }
 
   async generateToken(userPayload: UserPayload) {

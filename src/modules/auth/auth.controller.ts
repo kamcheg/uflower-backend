@@ -8,10 +8,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateBrandDto } from './dto/sign-in.dto';
+import { SignInDto } from './dto/sign-in.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from '../../common/types';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +20,14 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: CreateBrandDto) {
+  signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('register')
+  register(@Body() dto: CreateUserDto) {
+    return this.authService.register(dto);
   }
 
   @UseGuards(AuthGuard)
