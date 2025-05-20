@@ -29,10 +29,11 @@ export class OrdersController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@UserDecorator() user: UserPayload) {
+    return this.ordersService.findAll(user);
   }
 
   @UseGuards(AuthGuard)

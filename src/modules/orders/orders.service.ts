@@ -75,8 +75,11 @@ export class OrdersService {
     return this.orderRepository.save(order);
   }
 
-  findAll() {
+  findAll(user: UserPayload) {
     return this.orderRepository.find({
+      where: {
+        brand: { id: user.brand },
+      },
       order: {
         createdAt: 'desc',
       },
