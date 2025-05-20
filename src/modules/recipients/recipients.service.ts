@@ -21,8 +21,21 @@ export class RecipientsService {
     return await this.repository.save(newRecipient);
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    const rawResults: { flowersLength: string }[] = await this.repository
+      .createQueryBuilder('recipient')
+      .leftJoin('recipient.flowers', 'flower')
+      .select('recipient.id', 'id')
+      .addSelect('recipient.title', 'title')
+      .addSelect('COUNT(flower.id)', 'flowersLength')
+      .groupBy('recipient.id')
+      .addGroupBy('recipient.title')
+      .getRawMany();
+
+    return rawResults.map((row) => ({
+      ...row,
+      flowersLength: Number(row.flowersLength),
+    }));
   }
 
   findOne(id: number) {

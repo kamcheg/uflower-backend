@@ -20,8 +20,21 @@ export class ReasonsService {
     return this.repository.save(createReasonDto);
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    const rawResults: { flowersLength: string }[] = await this.repository
+      .createQueryBuilder('reason')
+      .leftJoin('reason.flowers', 'flower')
+      .select('reason.id', 'id')
+      .addSelect('reason.title', 'title')
+      .addSelect('COUNT(flower.id)', 'flowersLength')
+      .groupBy('reason.id')
+      .addGroupBy('reason.title')
+      .getRawMany();
+
+    return rawResults.map((row) => ({
+      ...row,
+      flowersLength: Number(row.flowersLength),
+    }));
   }
 
   async findOne(id: number) {

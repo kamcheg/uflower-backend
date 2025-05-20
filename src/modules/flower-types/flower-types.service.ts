@@ -20,8 +20,21 @@ export class FlowerTypesService {
     return this.repository.save(createFlowerTypeDto);
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    const rawResults: { flowersLength: string }[] = await this.repository
+      .createQueryBuilder('flower-type')
+      .leftJoin('flower-type.flowers', 'flower')
+      .select('flower-type.id', 'id')
+      .addSelect('flower-type.title', 'title')
+      .addSelect('COUNT(flower.id)', 'flowersLength')
+      .groupBy('flower-type.id')
+      .addGroupBy('flower-type.title')
+      .getRawMany();
+
+    return rawResults.map((row) => ({
+      ...row,
+      flowersLength: Number(row.flowersLength),
+    }));
   }
 
   findOne(id: number) {
