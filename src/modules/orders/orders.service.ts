@@ -9,6 +9,8 @@ import { TelegramService } from '../telegram/telegram.service';
 import { formatOrderMessage } from './orders.functions';
 import { BrandsService } from '../brands/brands.service';
 import { UsersService } from '../users/users.service';
+import { CustomerOrderSummaryDto } from './dto/get-customer-summary.dto';
+import { UserPayload } from '../../common/types';
 
 @Injectable()
 export class OrdersService {
@@ -79,5 +81,33 @@ export class OrdersService {
         createdAt: 'desc',
       },
     });
+  }
+
+  async getCustomersSummary(
+    user: UserPayload,
+  ): Promise<CustomerOrderSummaryDto[]> {
+    interface IItem {
+      customerPhone: string;
+      orders: string;
+      sum: string;
+    }
+
+    // TODO изучить
+    const result: IItem[] = await this.orderRepository
+      .createQueryBuilder('order')
+      .leftJoin('order.orderFlowers', 'orderFlower')
+      .leftJoin('order.brand', 'brand') // добавляем join на brand
+      .select('order.customerPhone', 'customerPhone')
+      .addSelect('COUNT(DISTINCT order.id)', 'orders')
+      .addSelect('SUM(orderFlower.price * orderFlower.quantity)', 'sum')
+      .where('brand.id = :brandId', { brandId: user.brand }) // фильтр по brand.id
+      .groupBy('order.customerPhone')
+      .getRawMany();
+
+    return result.map((r: IItem) => ({
+      customerPhone: r.customerPhone,
+      orders: parseInt(r.orders, 10),
+      sum: parseFloat(r.sum),
+    }));
   }
 }
