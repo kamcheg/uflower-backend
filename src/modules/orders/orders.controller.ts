@@ -11,7 +11,6 @@ import {
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { CreateShopDto } from '../shops/dto/create-shop.dto';
 import { UserDecorator } from '../auth/decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 
