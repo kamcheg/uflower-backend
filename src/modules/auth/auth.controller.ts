@@ -13,6 +13,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,6 +29,16 @@ export class AuthController {
   @Post('register')
   register(@Body() dto: CreateUserDto) {
     return this.authService.register(dto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('change-password')
+  async changePassword(
+    @UserDecorator() user: UserPayload,
+    @Body() dto: ChangePasswordDto,
+  ) {
+    await this.authService.changePassword(user, dto);
+    return 'ok';
   }
 
   @UseGuards(AuthGuard)

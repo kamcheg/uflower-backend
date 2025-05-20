@@ -17,9 +17,13 @@ export class UsersService {
     private readonly brandsService: BrandsService,
   ) {}
 
-  async findOne({ email }: { email?: string; id?: number }) {
-    const user = await this.repository.findOne({
-      where: { email },
+  async findOne({ email, id }: { email?: string; id?: number }) {
+    if (!email && !id) {
+      throw new NotFoundException(`User not found`);
+    }
+
+    const user = await this.repository.findOneOrFail({
+      where: [{ email }, { id }],
       relations: {
         brand: true,
       },
