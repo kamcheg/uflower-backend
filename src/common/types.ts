@@ -1,6 +1,6 @@
 export interface UserPayload {
   sub: number;
-  email: string;
+  phone: string;
   brand: number;
 }
 

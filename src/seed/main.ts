@@ -1059,7 +1059,7 @@ async function initUsers() {
   await AppDataSource.getRepository(User).save([
     {
       id: 1,
-      email: 'kamil@mail.ru',
+      phone: '79998887766',
       password: '66viboto66',
       brand: {
         id: 1,

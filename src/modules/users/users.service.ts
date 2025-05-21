@@ -17,20 +17,20 @@ export class UsersService {
     private readonly brandsService: BrandsService,
   ) {}
 
-  async findOne({ email, id }: { email?: string; id?: number }) {
-    if (!email && !id) {
+  async findOne({ phone, id }: { phone?: string; id?: number }) {
+    if (!phone && !id) {
       throw new NotFoundException(`User not found`);
     }
 
     const user = await this.repository.findOneOrFail({
-      where: [{ email }, { id }],
+      where: [{ phone }, { id }],
       relations: {
         brand: true,
       },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with email ${email}`);
+      throw new NotFoundException(`User with phone ${phone}`);
     }
 
     return user;
@@ -50,7 +50,7 @@ export class UsersService {
     const brand = await this.brandsService.findOne(dto.brandId);
 
     const newUser = {
-      email: dto.email,
+      phone: dto.phone,
       password,
       brand: brand,
     };
@@ -60,7 +60,7 @@ export class UsersService {
   }
 
   async generateToken(userPayload: UserPayload) {
-    const user = await this.findOne({ email: userPayload.email });
+    const user = await this.findOne({ phone: userPayload.phone });
     const token = uuidv4();
     user.telegramToken = token;
     await this.repository.save(user);

@@ -1,8 +1,8 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
 
 export class SignInDto {
-  @IsEmail()
-  email: string;
+  @Matches(/^7\d{10}$/, { message: 'Invalid phone number format' })
+  phone: string;
 
   @IsNotEmpty()
   @IsString()
