@@ -8,39 +8,33 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import * as sharp from 'sharp';
-import { writeFile, mkdir } from 'fs/promises';
-import { join, resolve } from 'path';
 import { randomUUID } from 'crypto';
+import { ImagesService } from './images.service';
 
 @Controller('upload-image')
 export class ImagesController {
+  constructor(private readonly imagesService: ImagesService) {}
+
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Req() req: Request,
   ) {
-    const uploadsDir = resolve(process.cwd(), 'uploads');
-
-    await mkdir(uploadsDir, { recursive: true });
-
     const optimize = req.query.optimize !== 'false';
     const fileName = `${randomUUID()}.webp`;
-    const filePath = join(uploadsDir, fileName);
+    let buffer: Buffer;
 
     if (optimize) {
-      const webpBuffer = await sharp(file.buffer)
+      buffer = await sharp(file.buffer)
         .resize({ width: 1200, withoutEnlargement: true })
         .webp({ quality: 80 })
         .toBuffer();
-      await writeFile(filePath, webpBuffer);
     } else {
-      await writeFile(filePath, file.buffer);
+      buffer = file.buffer;
     }
 
-    const host = req.protocol + '://' + req.get('host');
-    const fileUrl = `${host}/uploads/${fileName}`;
-
+    const fileUrl = await this.imagesService.uploadFile(buffer, fileName);
     return { url: fileUrl };
   }
 }
