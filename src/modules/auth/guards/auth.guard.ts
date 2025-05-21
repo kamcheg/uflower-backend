@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { secretKey } from '../constants';
 import { UserPayload } from '../../../common/types';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class AuthGuard implements CanActivate {
     }
     try {
       const payload = await this.jwtService.verifyAsync<UserPayload>(token, {
-        secret: secretKey,
+        secret: process.env.JWT_SECRET,
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       request['user'] = payload;
