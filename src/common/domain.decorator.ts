@@ -6,16 +6,19 @@ export const Domain = createParamDecorator(
     const request = ctx.switchToHttp().getRequest<Request>();
     const origin = request.headers.origin;
     const referer = request.headers.referer;
+    const host = request.headers.host;
 
     try {
       if (typeof origin === 'string') {
         return new URL(origin).hostname;
       } else if (typeof referer === 'string') {
         return new URL(referer).hostname;
+      } else if (typeof host === 'string') {
+        return host.split(':')[0]; // убрать порт
       } else {
         return 'неизвестен';
       }
-    } catch {
+    } catch (e) {
       return 'неизвестен';
     }
   },
