@@ -45,10 +45,12 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@Req() req: Request) {
-    const origin = req.headers.origin;
-    const referer = req.headers.referer;
-    const host = req.headers.host;
+    const domain = req.headers.origin
+      ? new URL(req.headers.origin).hostname
+      : req.headers.referer
+        ? new URL(req.headers.referer).hostname
+        : 'неизвестен';
 
-    return `Origin: ${origin}, Referer: ${referer}, Host: ${host}`;
+    return domain;
   }
 }
