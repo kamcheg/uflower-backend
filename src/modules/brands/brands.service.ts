@@ -43,15 +43,15 @@ export class BrandsService {
     return current;
   }
 
-  async findOneBySlug(slug: string) {
+  async findOneByDomain(domain: string) {
     const current = await this.repository.findOne({
       where: {
-        slug,
+        domain,
       },
     });
 
     if (!current) {
-      throw new NotFoundException(`Brand with slug ${slug} not found`);
+      throw new NotFoundException(`Brand with domain ${domain} not found`);
     }
 
     return current;

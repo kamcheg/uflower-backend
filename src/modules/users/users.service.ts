@@ -36,10 +36,10 @@ export class UsersService {
     return user;
   }
 
-  findUsersByBrand({ id, slug }: { id?: number; slug?: string }) {
+  findUsersByBrand({ id, domain }: { id?: number; domain?: string }) {
     return this.repository.find({
       where: {
-        brand: [{ id }, { slug }],
+        brand: [{ id }, { domain }],
       },
     });
   }

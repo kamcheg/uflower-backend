@@ -77,10 +77,10 @@ export class FlowersService {
   }
 
   async findForClient({
-    brandSlug,
+    domain,
     filters,
   }: {
-    brandSlug: string;
+    domain: string;
     filters: FlowersFilterDto;
   }) {
     const {
@@ -99,7 +99,7 @@ export class FlowersService {
       take: limit,
       where: {
         brand: {
-          slug: brandSlug,
+          domain: domain,
         },
         size: {
           id: sizes?.length ? In(sizes) : undefined,
@@ -134,12 +134,12 @@ export class FlowersService {
     };
   }
 
-  findByIds({ brandSlug, ids }: { brandSlug: string; ids: string[] }) {
+  findByIds({ domain, ids }: { domain: string; ids: string[] }) {
     return this.repository.find({
       where: {
         id: In(ids),
         brand: {
-          slug: brandSlug,
+          domain: domain,
         },
         isActive: true,
       },
@@ -150,22 +150,22 @@ export class FlowersService {
   async findOne({
     id,
     brandId,
-    brandSlug,
+    domain,
   }: {
     id: number;
     brandId?: number;
-    brandSlug?: string;
+    domain?: string;
   }) {
-    if (!brandId && !brandSlug) {
+    if (!brandId && !domain) {
       throw new NotFoundException(
-        'You did not pass any of the parameters (brandId, brandSlug)',
+        'You did not pass any of the parameters (brandId, domain)',
       );
     }
 
     const current = await this.repository.findOne({
       where: {
         id,
-        brand: [{ id: brandId }, { slug: brandSlug }],
+        brand: [{ id: brandId }, { domain: domain }],
       },
       ...scheme,
     });

@@ -28,7 +28,7 @@ export class OrdersService {
     private readonly brandsService: BrandsService,
   ) {}
 
-  async create({ dto, brandSlug }: { dto: CreateOrderDto; brandSlug: string }) {
+  async create({ dto, domain }: { dto: CreateOrderDto; domain: string }) {
     const flowers: Flower[] = [];
 
     const orderFlowers = await Promise.all(
@@ -36,7 +36,7 @@ export class OrdersService {
         const flower = await this.flowerRepository.findOneByOrFail({
           id: ofDto.flowerId,
           brand: {
-            slug: brandSlug,
+            domain: domain,
           },
         });
 
@@ -51,7 +51,7 @@ export class OrdersService {
       }),
     );
 
-    const brand = await this.brandsService.findOneBySlug(brandSlug);
+    const brand = await this.brandsService.findOneByDomain(domain);
 
     const order = this.orderRepository.create({
       ...dto,

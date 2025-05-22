@@ -15,7 +15,7 @@ export class CreateBrandDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  slug: string;
+  domain: string;
 
   @IsEmail()
   @IsString()

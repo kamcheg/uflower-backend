@@ -7,7 +7,6 @@ import {
   Delete,
   UseGuards,
   Patch,
-  Headers,
   Query,
 } from '@nestjs/common';
 import { FlowersService } from './flowers.service';
@@ -17,6 +16,7 @@ import { UserDecorator } from '../auth/decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
 import { FlowersFilterDto } from './dto/query-flower.dto';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('flowers')
 export class FlowersController {
@@ -38,20 +38,14 @@ export class FlowersController {
   }
 
   @Get()
-  findAll(
-    @Query() filters: FlowersFilterDto,
-    @Headers('brand-slug') brandSlug: string,
-  ) {
-    return this.flowersService.findForClient({ brandSlug, filters });
+  findAll(@Query() filters: FlowersFilterDto, @Domain() domain: string) {
+    return this.flowersService.findForClient({ domain, filters });
   }
 
   @Get('find-by-ids')
-  findByIds(
-    @Headers('brand-slug') brandSlug: string,
-    @Query('ids') ids: string[] = [],
-  ) {
+  findByIds(@Domain() domain: string, @Query('ids') ids: string[] = []) {
     return this.flowersService.findByIds({
-      brandSlug,
+      domain,
       ids,
     });
   }
@@ -76,7 +70,7 @@ export class FlowersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Headers('brand-slug') brandSlug: string) {
-    return this.flowersService.findOne({ id: +id, brandSlug });
+  findOne(@Param('id') id: string, @Domain() domain: string) {
+    return this.flowersService.findOne({ id: +id, domain });
   }
 }

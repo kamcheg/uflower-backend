@@ -151,7 +151,7 @@ async function initBrands() {
     {
       id: 1,
       name: 'Zizi',
-      slug: 'zizi',
+      domain: 'zizi',
       email: 'zizi@mail.ru',
       schedule: {
         from: '09:00',

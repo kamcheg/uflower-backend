@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UseGuards,
-  Patch,
-  Headers,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Patch } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
@@ -14,6 +6,7 @@ import { UserDecorator } from '../auth/decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { UpdateLogoDto } from './dto/update-logo.dto';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('brands')
 export class BrandsController {
@@ -38,8 +31,8 @@ export class BrandsController {
   }
 
   @Get('about')
-  about(@Headers('brand-slug') brandSlug: string) {
-    return this.brandsService.findOneBySlug(brandSlug);
+  about(@Domain() domain: string) {
+    return this.brandsService.findOneByDomain(domain);
   }
 
   @UseGuards(AuthGuard)

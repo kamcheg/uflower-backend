@@ -12,7 +12,7 @@ export class Brand extends AbstractEntity {
   name: string;
 
   @Column({ unique: true })
-  slug: string;
+  domain: string;
 
   @Column({ unique: true })
   email: string;
