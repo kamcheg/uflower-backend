@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -14,6 +15,7 @@ import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -41,9 +43,12 @@ export class AuthController {
     return 'ok';
   }
 
-  @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@UserDecorator() user: UserPayload) {
-    return user;
+  getProfile(@Req() req: Request) {
+    const origin = req.headers.origin;
+    const referer = req.headers.referer;
+    const host = req.headers.host;
+
+    return `Origin: ${origin}, Referer: ${referer}, Host: ${host}`;
   }
 }
