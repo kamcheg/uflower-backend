@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
 
-// T
+// TODO
 export const Domain = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): string => {
     const request = ctx.switchToHttp().getRequest<Request>();
@@ -17,10 +17,10 @@ export const Domain = createParamDecorator(
       } else if (typeof host === 'string') {
         return host.split(':')[0]; // убрать порт
       } else {
-        return 'неизвестен';
+        return 'magas-flowers.ru'; // TODO
       }
     } catch {
-      return 'неизвестен';
+      return 'magas-flowers.ru'; // TODO
     }
   },
 );
