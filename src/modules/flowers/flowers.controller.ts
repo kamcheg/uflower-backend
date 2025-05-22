@@ -74,4 +74,9 @@ export class FlowersController {
   remove(@Param('id') id: string) {
     return this.flowersService.remove(+id);
   }
+
+  @Get(':id')
+  findOne(@Param('id') id: string, @Headers('brand-slug') brandSlug: string) {
+    return this.flowersService.findOne({ id: +id, brandSlug });
+  }
 }

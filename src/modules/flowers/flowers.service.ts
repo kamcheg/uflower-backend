@@ -147,13 +147,25 @@ export class FlowersService {
     });
   }
 
-  async findOne(id: number, brandId: number) {
+  async findOne({
+    id,
+    brandId,
+    brandSlug,
+  }: {
+    id: number;
+    brandId?: number;
+    brandSlug?: string;
+  }) {
+    if (!brandId && !brandSlug) {
+      throw new NotFoundException(
+        'You did not pass any of the parameters (brandId, brandSlug)',
+      );
+    }
+
     const current = await this.repository.findOne({
       where: {
         id,
-        brand: {
-          id: brandId,
-        },
+        brand: [{ id: brandId }, { slug: brandSlug }],
       },
       ...scheme,
     });
@@ -174,7 +186,7 @@ export class FlowersService {
     updateFlowerDto: UpdateFlowerDto;
     brandId: UserPayload['brand'];
   }) {
-    const current = await this.findOne(id, brandId);
+    const current = await this.findOne({ id, brandId });
 
     Object.assign(current, updateFlowerDto);
 
