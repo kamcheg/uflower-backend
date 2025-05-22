@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -15,7 +14,7 @@ import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { Request } from 'express';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -44,11 +43,7 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Req() req: Request) {
-    return req.headers.origin
-      ? new URL(req.headers.origin).hostname
-      : req.headers.referer
-        ? new URL(req.headers.referer).hostname
-        : 'неизвестен';
+  getProfile(@Domain() domain: string) {
+    return domain;
   }
 }
