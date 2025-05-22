@@ -7,10 +7,6 @@ export const Domain = createParamDecorator(
     const origin = request.headers.origin;
     const referer = request.headers.referer;
 
-    if (request) {
-      return 'magas-flowers.ru';
-    }
-
     try {
       if (typeof origin === 'string') {
         return new URL(origin).hostname;
