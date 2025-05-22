@@ -44,6 +44,9 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@Domain() domain: string) {
-    return domain;
+    return {
+      domain,
+      cond: 'magas-flowers.ru' === domain,
+    };
   }
 }
