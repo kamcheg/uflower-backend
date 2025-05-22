@@ -7,7 +7,7 @@ export const Domain = createParamDecorator(
     const host = request.headers.host;
 
     if (request) {
-      return request.headers;
+      return 'magas-flowers.ru';
     }
 
     if (typeof host === 'string') {
