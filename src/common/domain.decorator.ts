@@ -6,12 +6,8 @@ export const Domain = createParamDecorator(
     const request = ctx.switchToHttp().getRequest<Request>();
     const host = request.headers.host;
 
-    if (request) {
-      return request.headers;
-    }
-
-    if (typeof host === 'string') {
-      return host.split(':')[0]; // убираем порт, если есть
+    if (host) {
+      return 'magas-flowers.ru';
     }
 
     return 'none';
