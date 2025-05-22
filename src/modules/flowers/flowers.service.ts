@@ -48,6 +48,7 @@ export class FlowersService {
       createFlowerDto.flowerTypeIds,
     );
     const brand = await this.brandsService.findOne(brandId);
+    const ingredients = createFlowerDto.ingredients || [];
 
     const newEl = this.repository.create({
       ...createFlowerDto,
@@ -56,6 +57,7 @@ export class FlowersService {
       reasons,
       recipients,
       flowerTypes,
+      ingredients,
     });
     return this.repository.save(newEl);
   }

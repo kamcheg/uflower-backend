@@ -7,8 +7,20 @@ import {
   IsBoolean,
   Min,
   Max,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+
+class IngredientDto {
+  @IsNotEmpty()
+  @IsString()
+  value: string;
+
+  @IsNumber()
+  @Min(0)
+  quantity: number;
+}
 
 export class CreateFlowerDto {
   @ApiProperty({ type: String, example: 'Название букета' })
@@ -46,6 +58,11 @@ export class CreateFlowerDto {
   @Min(-100000)
   @Max(100000)
   priority: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => IngredientDto)
+  ingredients: IngredientDto[];
 
   @ApiProperty({ type: Number, example: 1 })
   @IsNotEmpty()

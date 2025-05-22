@@ -15,6 +15,11 @@ import { AbstractEntity } from '../../../common/entities/abstract.entity';
 import { Brand } from '../../brands/entities/brand.entity';
 import { OrderFlower } from '../../order-flowers/entities/order-flower.entity';
 
+type Ingredient = {
+  value: string;
+  quantity: number;
+};
+
 @Entity()
 export class Flower extends AbstractEntity {
   @Column()
@@ -43,6 +48,9 @@ export class Flower extends AbstractEntity {
 
   @Column({ default: false })
   inStock: boolean;
+
+  @Column({ type: 'json', nullable: true })
+  ingredients?: Ingredient[];
 
   @ManyToOne(() => Size, (size) => size.flowers)
   @JoinColumn({ name: 'size_id' })
