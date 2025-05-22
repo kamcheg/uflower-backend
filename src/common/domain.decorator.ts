@@ -18,7 +18,7 @@ export const Domain = createParamDecorator(
       } else {
         return 'неизвестен';
       }
-    } catch (e) {
+    } catch {
       return 'неизвестен';
     }
   },
