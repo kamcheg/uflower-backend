@@ -20,11 +20,19 @@ export class AuthService {
   ) {}
 
   async signIn(phone: string, pass: string) {
-    const user = await this.usersService.findOne({ phone: phone });
+    let user: User;
+
+    try {
+      user = await this.usersService.findOne({ phone: phone });
+    } catch {
+      throw new UnauthorizedException(
+        'Пользователь с таким номером не зарегистрирован!',
+      );
+    }
 
     const authenticated = await compare(pass, user.password);
     if (!authenticated) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Пароли не совпадают.');
     }
 
     const payload = { sub: user.id, phone: user.phone, brand: user.brand.id };

@@ -22,7 +22,7 @@ export class UsersService {
       throw new NotFoundException(`User not found`);
     }
 
-    const user = await this.repository.findOneOrFail({
+    const user = await this.repository.findOne({
       where: [{ phone }, { id }],
       relations: {
         brand: true,
