@@ -32,7 +32,7 @@ export class AuthService {
 
     const authenticated = await compare(pass, user.password);
     if (!authenticated) {
-      throw new UnauthorizedException('Пароли не совпадают.');
+      throw new UnauthorizedException('Неверный пароль.');
     }
 
     const payload = { sub: user.id, phone: user.phone, brand: user.brand.id };
