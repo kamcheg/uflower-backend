@@ -1,5 +1,6 @@
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
@@ -104,4 +105,7 @@ export class Flower extends AbstractEntity {
 
   @OneToMany(() => OrderFlower, (orderFlower) => orderFlower.flower)
   orderFlowers: OrderFlower[];
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

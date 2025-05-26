@@ -213,6 +213,6 @@ export class FlowersService {
   }
 
   remove(id: number) {
-    return this.repository.delete(id);
+    return this.repository.softDelete(id);
   }
 }

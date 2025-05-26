@@ -77,6 +77,7 @@ export class OrdersService {
 
   findAll(user: UserPayload) {
     return this.orderRepository.find({
+      withDeleted: true,
       where: {
         brand: { id: user.brand },
       },
