@@ -16,6 +16,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TelegramModule } from './modules/telegram/telegram.module';
+import { SubmissionsModule } from './modules/submissions/submissions.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { TelegramModule } from './modules/telegram/telegram.module';
     OrdersModule,
     OrderFlowersModule,
     TelegramModule,
+    SubmissionsModule,
   ],
 })
 export class AppModule {}
