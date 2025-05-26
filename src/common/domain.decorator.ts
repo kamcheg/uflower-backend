@@ -7,6 +7,10 @@ export const Domain = createParamDecorator(
 
     const clientHost = String(request.headers['w-client-host']);
 
-    return clientHost || 'none';
+    if (process.env.NODE_ENV === 'production') {
+      return clientHost || 'none';
+    }
+
+    return 'uflower.ru';
   },
 );
