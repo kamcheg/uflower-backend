@@ -91,4 +91,8 @@ export class CreateFlowerDto {
   @IsArray()
   @IsString({ each: true })
   images: string[];
+
+  @IsNotEmpty()
+  @IsNumber()
+  mainImageIndex: number;
 }
