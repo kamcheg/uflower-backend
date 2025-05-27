@@ -16,12 +16,25 @@ export class ImagesService {
     });
   }
 
-  async uploadFile(buffer: Buffer, fileName: string): Promise<string> {
+  async uploadWebp(buffer: Buffer, fileName: string): Promise<string> {
     const params: S3.Types.PutObjectRequest = {
       Bucket: process.env.S3_BUCKET_NAME!,
       Key: fileName,
       Body: buffer,
       ContentType: 'image/webp', // если оптимизирую в webp
+    };
+
+    const res = await this.s3.upload(params).promise();
+
+    return res.Location;
+  }
+
+  async upload(file: Express.Multer.File, fileName: string) {
+    const params: S3.Types.PutObjectRequest = {
+      Bucket: process.env.S3_BUCKET_NAME!,
+      Key: fileName,
+      Body: file.buffer,
+      ContentType: file.mimetype, // если оптимизирую в webp
     };
 
     const res = await this.s3.upload(params).promise();

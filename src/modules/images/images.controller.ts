@@ -10,6 +10,7 @@ import { Request } from 'express';
 import * as sharp from 'sharp';
 import { randomUUID } from 'crypto';
 import { ImagesService } from './images.service';
+import { extname } from 'path';
 
 @Controller('upload-image')
 export class ImagesController {
@@ -22,19 +23,23 @@ export class ImagesController {
     @Req() req: Request,
   ) {
     const optimize = req.query.optimize !== 'false';
-    const fileName = `${randomUUID()}.webp`;
+    let fileName = '';
     let buffer: Buffer;
 
     if (optimize) {
+      fileName = `${randomUUID()}.webp`;
       buffer = await sharp(file.buffer)
         .resize({ width: 1200, withoutEnlargement: true })
         .webp({ quality: 80 })
         .toBuffer();
-    } else {
-      buffer = file.buffer;
+
+      const fileUrl = await this.imagesService.uploadWebp(buffer, fileName);
+      return { url: fileUrl };
     }
 
-    const fileUrl = await this.imagesService.uploadFile(buffer, fileName);
+    const originalExtension = extname(file.originalname);
+    fileName = randomUUID() + originalExtension;
+    const fileUrl = await this.imagesService.upload(file, fileName);
     return { url: fileUrl };
   }
 }
