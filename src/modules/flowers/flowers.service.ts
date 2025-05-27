@@ -58,6 +58,7 @@ export class FlowersService {
       recipients,
       flowerTypes,
       ingredients,
+      mainImageIndex: createFlowerDto.mainImageIndex || 0,
     });
     return this.repository.save(newEl);
   }

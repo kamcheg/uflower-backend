@@ -20,7 +20,7 @@ export class Brand extends AbstractEntity {
   @Column({ type: 'json' })
   schedule: IWorkTime;
 
-  @Column({ unique: true })
+  @Column()
   sitePhone: string;
 
   @Column({ type: 'varchar', nullable: true })

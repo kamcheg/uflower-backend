@@ -92,7 +92,7 @@ export class CreateFlowerDto {
   @IsString({ each: true })
   images: string[];
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
-  mainImageIndex: number;
+  mainImageIndex?: number;
 }
