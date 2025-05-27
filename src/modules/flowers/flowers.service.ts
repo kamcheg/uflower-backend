@@ -119,8 +119,8 @@ export class FlowersService {
       },
       ...scheme,
       order: {
-        inStock: 'desc', // TODO на подумать
-        priority: 'desc', // TODO на подумать
+        inStock: 'desc',
+        priority: 'desc',
         createdAt: 'desc',
       },
     });
