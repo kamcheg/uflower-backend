@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
 import { BrandsService } from '../brands/brands.service';
+import { Role } from '../auth/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -52,6 +53,7 @@ export class UsersService {
     const newUser = {
       phone: dto.phone,
       password,
+      roles: [Role.Owner],
       brand: brand,
     };
 
