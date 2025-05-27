@@ -35,7 +35,12 @@ export class AuthService {
       throw new UnauthorizedException('Неверный пароль.');
     }
 
-    const payload = { sub: user.id, phone: user.phone, brand: user.brand.id };
+    const payload: UserPayload = {
+      sub: user.id,
+      phone: user.phone,
+      brand: user.brand.id,
+      roles: user.roles,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

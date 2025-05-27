@@ -11,6 +11,8 @@ export class SizesController {
     return this.sizesService.create(createSizeDto);
   }
 
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.Owner, Role.Florist)
   @Get()
   findAll() {
     return this.sizesService.findAll();
