@@ -96,7 +96,6 @@ export class OrdersService {
       sum: string;
     }
 
-    // TODO изучить
     const result: IItem[] = await this.orderRepository
       .createQueryBuilder('order')
       .leftJoin('order.orderFlowers', 'orderFlower')
