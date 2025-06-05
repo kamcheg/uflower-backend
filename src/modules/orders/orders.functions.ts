@@ -1,5 +1,6 @@
 import { Flower } from '../flowers/entities/flower.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import Decimal from 'decimal.js';
 
 /**
  * Формирует текст сообщения о заказе
@@ -37,10 +38,14 @@ export function formatOrderMessage(
     lines.push(`• ${name} — ${item.quantity} шт. × ${price}₽`);
   }
 
-  const totalPrice = order.orderFlowers.reduce((sum, item) => {
-    const flower = flowers.find((f) => f.id === item.flowerId);
-    return sum + (flower?.price ?? 0) * item.quantity;
-  }, 0); // TODO DECIMAL
+  const totalPrice = order.orderFlowers
+    .reduce((sum, item) => {
+      const flower = flowers.find((f) => f.id === item.flowerId);
+      const price = new Decimal(flower?.price ?? 0);
+      const quantity = new Decimal(item.quantity);
+      return sum.plus(price.times(quantity));
+    }, new Decimal(0))
+    .toNumber();
 
   lines.push('');
   lines.push(`💰 *Итого:* ${totalPrice}₽`);
