@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { FlowersService } from './services/flowers.service';
-import { FlowersController } from './flowers.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Flower } from './entities/flower.entity';
 import { SizesModule } from '../sizes/sizes.module';
@@ -11,6 +10,8 @@ import { ImagesModule } from '../images/images.module';
 import { BrandsModule } from '../brands/brands.module';
 import { ClientFlowersService } from './services/client-flowers.service';
 import { AdminFlowersService } from './services/admin-flowers.service';
+import { AdminFlowersController } from './controllers/admin-flowers.controller';
+import { ClientFlowersController } from './controllers/client-flowers.controller';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { AdminFlowersService } from './services/admin-flowers.service';
     ImagesModule,
     BrandsModule,
   ],
-  controllers: [FlowersController],
+  controllers: [AdminFlowersController, ClientFlowersController],
   providers: [FlowersService, ClientFlowersService, AdminFlowersService],
   exports: [TypeOrmModule],
 })

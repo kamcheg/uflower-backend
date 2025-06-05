@@ -7,20 +7,17 @@ import {
   Delete,
   UseGuards,
   Patch,
-  Query,
 } from '@nestjs/common';
-import { FlowersService } from '../services/flowers.service';
 import { CreateFlowerDto } from '../dto/create-flower.dto';
 import { AuthGuard } from '../../auth/guards/auth.guard';
 import { UserDecorator } from '../../auth/decorators/user.decorator';
 import { UserPayload } from '../../../common/types';
 import { UpdateFlowerDto } from '../dto/update-flower.dto';
-import { FlowersFilterDto } from '../dto/query-flower.dto';
-import { Domain } from '../../../common/domain.decorator';
+import { AdminFlowersService } from '../services/admin-flowers.service';
 
 @Controller('flowers')
-export class FlowersController {
-  constructor(private readonly flowersService: FlowersService) {}
+export class AdminFlowersController {
+  constructor(private readonly adminFlowersService: AdminFlowersService) {}
 
   @UseGuards(AuthGuard)
   @Post()
@@ -28,26 +25,13 @@ export class FlowersController {
     @Body() createFlowerDto: CreateFlowerDto,
     @UserDecorator() user: UserPayload,
   ) {
-    return this.flowersService.create(createFlowerDto, user.brand);
+    return this.adminFlowersService.create(createFlowerDto, user.brand);
   }
 
   @UseGuards(AuthGuard)
   @Get('admin')
   findAllForAdmin(@UserDecorator() user: UserPayload) {
-    return this.flowersService.findAll(user.brand);
-  }
-
-  @Get()
-  findAll(@Query() filters: FlowersFilterDto, @Domain() domain: string) {
-    return this.flowersService.findForClient({ domain, filters });
-  }
-
-  @Get('find-by-ids')
-  findByIds(@Domain() domain: string, @Query('ids') ids: string[] = []) {
-    return this.flowersService.findByIds({
-      domain,
-      ids,
-    });
+    return this.adminFlowersService.findAll(user.brand);
   }
 
   @UseGuards(AuthGuard)
@@ -57,7 +41,7 @@ export class FlowersController {
     @Body() updateFlowerDto: UpdateFlowerDto,
     @UserDecorator() user: UserPayload,
   ) {
-    return this.flowersService.update({
+    return this.adminFlowersService.update({
       id: +id,
       updateFlowerDto,
       brandId: user.brand,
@@ -66,11 +50,6 @@ export class FlowersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.flowersService.remove(+id);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string, @Domain() domain: string) {
-    return this.flowersService.findOne({ id: +id, domain });
+    return this.adminFlowersService.remove(+id);
   }
 }
