@@ -9,24 +9,18 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-import { FlowersService } from './services/flowers.service';
-import { CreateFlowerDto } from './dto/create-flower.dto';
-import { AuthGuard } from '../auth/guards/auth.guard';
-import { UserDecorator } from '../auth/decorators/user.decorator';
-import { UserPayload } from '../../common/types';
-import { UpdateFlowerDto } from './dto/update-flower.dto';
-import { FlowersFilterDto } from './dto/query-flower.dto';
-import { Domain } from '../../common/domain.decorator';
-import { ClientFlowersService } from './services/client-flowers.service';
-import { AdminFlowersService } from './services/admin-flowers.service';
+import { FlowersService } from '../services/flowers.service';
+import { CreateFlowerDto } from '../dto/create-flower.dto';
+import { AuthGuard } from '../../auth/guards/auth.guard';
+import { UserDecorator } from '../../auth/decorators/user.decorator';
+import { UserPayload } from '../../../common/types';
+import { UpdateFlowerDto } from '../dto/update-flower.dto';
+import { FlowersFilterDto } from '../dto/query-flower.dto';
+import { Domain } from '../../../common/domain.decorator';
 
 @Controller('flowers')
 export class FlowersController {
-  constructor(
-    private readonly flowersService: FlowersService,
-    private readonly clientFlowersService: ClientFlowersService,
-    private readonly adminFlowersService: AdminFlowersService,
-  ) {}
+  constructor(private readonly flowersService: FlowersService) {}
 
   @UseGuards(AuthGuard)
   @Post()
@@ -34,18 +28,18 @@ export class FlowersController {
     @Body() createFlowerDto: CreateFlowerDto,
     @UserDecorator() user: UserPayload,
   ) {
-    return this.adminFlowersService.create(createFlowerDto, user.brand);
+    return this.flowersService.create(createFlowerDto, user.brand);
   }
 
   @UseGuards(AuthGuard)
   @Get('admin')
   findAllForAdmin(@UserDecorator() user: UserPayload) {
-    return this.adminFlowersService.findAll(user.brand);
+    return this.flowersService.findAll(user.brand);
   }
 
   @Get()
   findAll(@Query() filters: FlowersFilterDto, @Domain() domain: string) {
-    return this.clientFlowersService.findAll({ domain, filters });
+    return this.flowersService.findForClient({ domain, filters });
   }
 
   @Get('find-by-ids')
@@ -63,7 +57,7 @@ export class FlowersController {
     @Body() updateFlowerDto: UpdateFlowerDto,
     @UserDecorator() user: UserPayload,
   ) {
-    return this.adminFlowersService.update({
+    return this.flowersService.update({
       id: +id,
       updateFlowerDto,
       brandId: user.brand,
@@ -72,7 +66,7 @@ export class FlowersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.adminFlowersService.remove(+id);
+    return this.flowersService.remove(+id);
   }
 
   @Get(':id')
