@@ -18,6 +18,7 @@ import { Domain } from '../../common/domain.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { Role } from './role.enum';
+import { SuperAdminGuard } from './guards/superadmin.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -29,8 +30,7 @@ export class AuthController {
     return this.authService.signIn(signInDto.phone, signInDto.password);
   }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SuperAdmin)
+  @UseGuards(SuperAdminGuard)
   @HttpCode(HttpStatus.OK)
   @Post('register')
   register(@Body() dto: CreateUserDto) {
