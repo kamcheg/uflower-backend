@@ -117,11 +117,22 @@ export class FlowersService {
         price: Between(priceMin || 0, priceMax || 100000000),
         isActive: true,
       },
-      ...scheme,
       order: {
         inStock: 'desc',
         priority: 'desc',
         createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        name: true,
+        description: true,
+        inStock: true,
+        isActive: true,
+        images: true,
+        mainImageIndex: true,
+        price: true,
+        priority: true,
       },
     });
 
