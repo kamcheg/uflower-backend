@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Shop } from './entities/shop.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateShopDto } from './dto/create-shop.dto';
-import { BrandsService } from '../brands/brands.service';
+import { BrandsService } from '../brands/services/brands.service';
 import { UserPayload } from '../../common/types';
 
 @Injectable()

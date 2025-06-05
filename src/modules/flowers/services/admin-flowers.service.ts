@@ -8,7 +8,7 @@ import { ReasonsService } from '../../reasons/reasons.service';
 import { RecipientsService } from '../../recipients/recipients.service';
 import { FlowerTypesService } from '../../flower-types/flower-types.service';
 import { UserPayload } from '../../../common/types';
-import { BrandsService } from '../../brands/brands.service';
+import { BrandsService } from '../../brands/services/brands.service';
 import { UpdateFlowerDto } from '../dto/update-flower.dto';
 import { FlowersService } from './flowers.service';
 

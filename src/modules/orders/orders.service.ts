@@ -7,7 +7,7 @@ import { Flower } from '../flowers/entities/flower.entity';
 import { OrderFlower } from '../order-flowers/entities/order-flower.entity';
 import { TelegramService } from '../telegram/telegram.service';
 import { formatOrderMessage } from './orders.functions';
-import { BrandsService } from '../brands/brands.service';
+import { BrandsService } from '../brands/services/brands.service';
 import { UsersService } from '../users/users.service';
 import { CustomerOrderSummaryDto } from './dto/get-customer-summary.dto';
 import { UserPayload } from '../../common/types';

@@ -6,7 +6,7 @@ import { UserPayload } from '../../common/types';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
-import { BrandsService } from '../brands/brands.service';
+import { BrandsService } from '../brands/services/brands.service';
 import { Role } from '../auth/role.enum';
 
 @Injectable()
