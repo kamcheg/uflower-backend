@@ -14,6 +14,10 @@ export class BrandsService {
     private repository: Repository<Brand>,
   ) {}
 
+  async findAll() {
+    return this.repository.find();
+  }
+
   create(createBrandDto: CreateBrandDto) {
     return this.repository.save(createBrandDto);
   }

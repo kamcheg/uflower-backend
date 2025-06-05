@@ -15,6 +15,9 @@ import { UserPayload } from '../../common/types';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { Domain } from '../../common/domain.decorator';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorator';
+import { Role } from './role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -26,6 +29,8 @@ export class AuthController {
     return this.authService.signIn(signInDto.phone, signInDto.password);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.SuperAdmin)
   @HttpCode(HttpStatus.OK)
   @Post('register')
   register(@Body() dto: CreateUserDto) {
