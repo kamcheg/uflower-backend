@@ -2,6 +2,7 @@ import { Controller, Get, Body, Param } from '@nestjs/common';
 import { ReasonsService } from './reasons.service';
 import { CreateReasonDto } from './dto/create-reason.dto';
 import { UpdateReasonDto } from './dto/update-reason.dto';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('reasons')
 export class ReasonsController {
@@ -12,8 +13,8 @@ export class ReasonsController {
   }
 
   @Get()
-  findAll() {
-    return this.reasonsService.findAll();
+  findAll(@Domain() domain: string) {
+    return this.reasonsService.findAll(domain);
   }
 
   findOne(@Param('id') id: string) {

@@ -20,13 +20,15 @@ export class ReasonsService {
     return this.repository.save(createReasonDto);
   }
 
-  async findAll() {
+  async findAll(domain: string) {
     const rawResults: { flowersLength: string }[] = await this.repository
       .createQueryBuilder('reason')
       .leftJoin('reason.flowers', 'flower')
+      .leftJoin('flower.brand', 'brand')
       .select('reason.id', 'id')
       .addSelect('reason.title', 'title')
       .addSelect('COUNT(flower.id)', 'flowersLength')
+      .where('brand.domain = :domain', { domain })
       .groupBy('reason.id')
       .addGroupBy('reason.title')
       .getRawMany();
