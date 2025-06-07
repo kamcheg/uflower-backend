@@ -11,9 +11,9 @@ export class ClientFlowersController {
     private readonly clientFlowersService: ClientFlowersService,
   ) {}
 
-  @Get(':id')
-  findOne(@Param('id') id: string, @Domain() domain: string) {
-    return this.flowersService.findOne({ id: +id, domain });
+  @Get()
+  findAll(@Query() filters: FlowersFilterDto, @Domain() domain: string) {
+    return this.clientFlowersService.findAll({ domain, filters });
   }
 
   @Get('find-by-ids')
@@ -24,8 +24,8 @@ export class ClientFlowersController {
     });
   }
 
-  @Get()
-  findAll(@Query() filters: FlowersFilterDto, @Domain() domain: string) {
-    return this.clientFlowersService.findAll({ domain, filters });
+  @Get(':id')
+  findOne(@Param('id') id: string, @Domain() domain: string) {
+    return this.flowersService.findOne({ id: +id, domain });
   }
 }
