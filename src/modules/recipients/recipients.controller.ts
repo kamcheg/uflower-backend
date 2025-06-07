@@ -2,6 +2,7 @@ import { Controller, Get, Body, Param } from '@nestjs/common';
 import { RecipientsService } from './recipients.service';
 import { CreateRecipientDto } from './dto/create-recipient.dto';
 import { UpdateRecipientDto } from './dto/update-recipient.dto';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('recipients')
 export class RecipientsController {
@@ -12,8 +13,8 @@ export class RecipientsController {
   }
 
   @Get()
-  findAll() {
-    return this.recipientsService.findAll();
+  findAll(@Domain() domain: string) {
+    return this.recipientsService.findAll(domain);
   }
 
   findOne(@Param('id') id: string) {

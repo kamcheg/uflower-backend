@@ -21,13 +21,15 @@ export class RecipientsService {
     return await this.repository.save(newRecipient);
   }
 
-  async findAll() {
+  async findAll(domain: string) {
     const rawResults: { flowersLength: string }[] = await this.repository
       .createQueryBuilder('recipient')
       .leftJoin('recipient.flowers', 'flower')
+      .leftJoin('flower.brand', 'brand')
       .select('recipient.id', 'id')
       .addSelect('recipient.title', 'title')
       .addSelect('COUNT(flower.id)', 'flowersLength')
+      .where('brand.domain = :domain', { domain })
       .groupBy('recipient.id')
       .addGroupBy('recipient.title')
       .getRawMany();
