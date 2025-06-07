@@ -2,6 +2,7 @@ import { Controller, Get, Body, Param } from '@nestjs/common';
 import { FlowerTypesService } from './flower-types.service';
 import { CreateFlowerTypeDto } from './dto/create-flower-type.dto';
 import { UpdateFlowerTypeDto } from './dto/update-flower-type.dto';
+import { Domain } from '../../common/domain.decorator';
 
 @Controller('flower-types')
 export class FlowerTypesController {
@@ -12,8 +13,8 @@ export class FlowerTypesController {
   }
 
   @Get()
-  findAll() {
-    return this.flowerTypesService.findAll();
+  findAll(@Domain() domain: string) {
+    return this.flowerTypesService.findAll(domain);
   }
 
   findOne(@Param('id') id: string) {

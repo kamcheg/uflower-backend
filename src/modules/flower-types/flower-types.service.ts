@@ -20,13 +20,15 @@ export class FlowerTypesService {
     return this.repository.save(createFlowerTypeDto);
   }
 
-  async findAll() {
+  async findAll(domain: string) {
     const rawResults: { flowersLength: string }[] = await this.repository
       .createQueryBuilder('flower-type')
       .leftJoin('flower-type.flowers', 'flower')
+      .leftJoin('flower.brand', 'brand')
       .select('flower-type.id', 'id')
       .addSelect('flower-type.title', 'title')
       .addSelect('COUNT(flower.id)', 'flowersLength')
+      .where('brand.domain = :domain', { domain })
       .groupBy('flower-type.id')
       .addGroupBy('flower-type.title')
       .getRawMany();
