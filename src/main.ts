@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { initSwagger } from './common/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 // import * as express from 'express';
@@ -17,8 +16,6 @@ async function bootstrap() {
       transform: true, // преобразует payload в нужный тип
     }),
   );
-
-  initSwagger(app);
 
   // парсит ids[]
   app.set('query parser', 'extended');

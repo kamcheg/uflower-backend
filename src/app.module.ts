@@ -6,17 +6,9 @@ import { FlowerTypesModule } from './modules/flower-types/flower-types.module';
 import { ReasonsModule } from './modules/reasons/reasons.module';
 import { FlowersModule } from './modules/flowers/flowers.module';
 import { ImagesModule } from './modules/images/images.module';
-import { BrandsModule } from './modules/brands/brands.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
-import { ShopsModule } from './modules/shops/shops.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { OrdersModule } from './modules/orders/orders.module';
-import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TelegramModule } from './modules/telegram/telegram.module';
-import { SubmissionsModule } from './modules/submissions/submissions.module';
 
 @Module({
   imports: [
@@ -44,14 +36,6 @@ import { SubmissionsModule } from './modules/submissions/submissions.module';
     ReasonsModule,
     FlowersModule,
     ImagesModule,
-    BrandsModule,
-    AuthModule,
-    UsersModule,
-    ShopsModule,
-    OrdersModule,
-    OrderFlowersModule,
-    TelegramModule,
-    SubmissionsModule,
   ],
 })
 export class AppModule {}
