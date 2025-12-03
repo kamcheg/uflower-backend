@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Size } from './entities/size.entity';
 import { Repository } from 'typeorm';
@@ -12,5 +12,15 @@ export class SizesService {
 
   findAll() {
     return this.sizesRepository.find();
+  }
+
+  async findOne(id: number) {
+    const current = await this.sizesRepository.findOneBy({ id });
+
+    if (!current) {
+      throw new NotFoundException(`Size with id ${id} not found`);
+    }
+
+    return current;
   }
 }

@@ -3,6 +3,12 @@ import { Between, In, Repository } from 'typeorm';
 import { Flower } from '../entities/flower.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FlowersFilterDto } from '../dto/query-flower.dto';
+import { UpdateFlowerDto } from '../dto/update-flower.dto';
+import { SizesService } from '../../sizes/sizes.service';
+import { ReasonsService } from '../../reasons/reasons.service';
+import { RecipientsService } from '../../recipients/recipients.service';
+import { FlowerTypesService } from '../../flower-types/flower-types.service';
+import { CreateFlowerDto } from '../dto/create-flower.dto';
 
 const scheme = {
   relations: {
@@ -18,6 +24,10 @@ export class FlowersService {
   constructor(
     @InjectRepository(Flower)
     private readonly repository: Repository<Flower>,
+    private readonly sizesService: SizesService,
+    private readonly reasonsService: ReasonsService,
+    private readonly recipientsService: RecipientsService,
+    private readonly flowerTypesService: FlowerTypesService,
   ) {}
 
   async findAll({ filters }: { filters: FlowersFilterDto }) {
@@ -103,5 +113,76 @@ export class FlowersService {
     }
 
     return current;
+  }
+
+  findAllForAdmin() {
+    return this.repository.find({
+      ...scheme,
+      order: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  async create(createFlowerDto: CreateFlowerDto) {
+    const size = await this.sizesService.findOne(createFlowerDto.sizeId);
+    const reasons = await this.reasonsService.findByIds(
+      createFlowerDto.reasonIds,
+    );
+    const recipients = await this.recipientsService.findByIds(
+      createFlowerDto.recipientIds,
+    );
+    const flowerTypes = await this.flowerTypesService.findByIds(
+      createFlowerDto.flowerTypeIds,
+    );
+    const ingredients = createFlowerDto.ingredients || [];
+
+    const newEl = this.repository.create({
+      ...createFlowerDto,
+      size,
+      reasons,
+      recipients,
+      flowerTypes,
+      ingredients,
+      mainImageIndex: createFlowerDto.mainImageIndex || 0,
+    });
+    return this.repository.save(newEl);
+  }
+
+  async update({
+    id,
+    updateFlowerDto,
+  }: {
+    id: number;
+    updateFlowerDto: UpdateFlowerDto;
+  }) {
+    const current = await this.findOne({ id });
+
+    Object.assign(current, updateFlowerDto);
+
+    if (updateFlowerDto.sizeId) {
+      current.size = await this.sizesService.findOne(updateFlowerDto.sizeId);
+    }
+    if (updateFlowerDto.reasonIds) {
+      current.reasons = await this.reasonsService.findByIds(
+        updateFlowerDto.reasonIds,
+      );
+    }
+    if (updateFlowerDto.recipientIds) {
+      current.recipients = await this.recipientsService.findByIds(
+        updateFlowerDto.recipientIds,
+      );
+    }
+    if (updateFlowerDto.flowerTypeIds) {
+      current.flowerTypes = await this.flowerTypesService.findByIds(
+        updateFlowerDto.flowerTypeIds,
+      );
+    }
+
+    return this.repository.save(current);
+  }
+
+  remove(id: number) {
+    return this.repository.softDelete(id);
   }
 }
