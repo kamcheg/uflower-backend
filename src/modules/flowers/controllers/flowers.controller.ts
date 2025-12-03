@@ -7,11 +7,13 @@ import {
   Query,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { FlowersFilterDto } from '../dto/query-flower.dto';
 import { FlowersService } from '../services/flowers.service';
 import { UpdateFlowerDto } from '../dto/update-flower.dto';
 import { CreateFlowerDto } from '../dto/create-flower.dto';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 
 @Controller('flowers')
 export class FlowersController {
@@ -29,6 +31,7 @@ export class FlowersController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Get('admin')
   findAllForAdmin() {
     return this.flowersService.findAllForAdmin();
@@ -39,6 +42,7 @@ export class FlowersController {
     return this.flowersService.findOne({ id: +id });
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFlowerDto: UpdateFlowerDto) {
     return this.flowersService.update({
@@ -47,11 +51,13 @@ export class FlowersController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.flowersService.remove(+id);
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createFlowerDto: CreateFlowerDto) {
     return this.flowersService.create(createFlowerDto);

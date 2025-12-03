@@ -13,6 +13,7 @@ import { UserDecorator } from './decorators/user.decorator';
 import { UserPayload } from '../../common/types';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { SuperAdminGuard } from './guards/superadmin.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +25,7 @@ export class AuthController {
     return this.authService.signIn(signInDto.phone, signInDto.password);
   }
 
+  @UseGuards(SuperAdminGuard)
   @HttpCode(HttpStatus.OK)
   @Post('register')
   register(@Body() dto: CreateUserDto) {
