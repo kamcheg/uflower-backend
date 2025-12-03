@@ -1,4 +1,6 @@
+import { join } from 'path';
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SizesModule } from './modules/sizes/sizes.module';
 import { RecipientsModule } from './modules/recipients/recipients.module';
@@ -6,9 +8,9 @@ import { FlowerTypesModule } from './modules/flower-types/flower-types.module';
 import { ReasonsModule } from './modules/reasons/reasons.module';
 import { FlowersModule } from './modules/flowers/flowers.module';
 import { ImagesModule } from './modules/images/images.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     FlowerTypesModule,
     ReasonsModule,
     FlowersModule,
+    AuthModule,
+    UsersModule,
     ImagesModule,
   ],
 })
