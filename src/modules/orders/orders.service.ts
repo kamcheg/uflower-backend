@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Flower } from '../flowers/entities/flower.entity';
 import { OrderFlower } from '../order-flowers/entities/order-flower.entity';
 import { TelegramService } from '../telegram/telegram.service';
-// import { formatOrderMessage } from './orders.functions';
 import { UsersService } from '../users/users.service';
 import { CustomerOrderSummaryDto } from './dto/get-customer-summary.dto';
 import { formatOrderMessage } from './orders.functions';
