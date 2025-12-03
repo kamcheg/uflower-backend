@@ -14,6 +14,10 @@ export class UsersService {
     private repository: Repository<User>,
   ) {}
 
+  async findAll(): Promise<User[]> {
+    return this.repository.find();
+  }
+
   async findOne({ phone, id }: { phone?: string; id?: number }): Promise<User> {
     if (!phone && !id) {
       throw new NotFoundException(`User not found`);

@@ -11,6 +11,9 @@ import { ImagesModule } from './modules/images/images.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
+import { TelegramModule } from './modules/telegram/telegram.module';
 
 @Module({
   imports: [
@@ -40,6 +43,9 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
     ImagesModule,
+    OrdersModule,
+    OrderFlowersModule,
+    TelegramModule,
   ],
 })
 export class AppModule {}

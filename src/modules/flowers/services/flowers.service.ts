@@ -100,7 +100,7 @@ export class FlowersService {
     });
   }
 
-  async findOne({ id }: { id: number; brandId?: number; domain?: string }) {
+  async findOne({ id }: { id: number }) {
     const current = await this.repository.findOne({
       where: {
         id,
