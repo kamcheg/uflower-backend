@@ -14,6 +14,7 @@ import { UsersModule } from './modules/users/users.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderFlowersModule } from './modules/order-flowers/order-flowers.module';
 import { TelegramModule } from './modules/telegram/telegram.module';
+import { TelegrafModule } from 'nestjs-telegraf';
 
 @Module({
   imports: [
@@ -34,6 +35,9 @@ import { TelegramModule } from './modules/telegram/telegram.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'), // Указывает физическую директорию
       serveRoot: '/uploads', // Указывает по какому URL пути можно будет получить доступ к этим файлам
+    }),
+    TelegrafModule.forRoot({
+      token: '8014844446:AAH5U4LFzMhlCvllHW8AXRg8UhHwMTGZ52w', // TODO ENV
     }),
     SizesModule,
     RecipientsModule,

@@ -1,41 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Update, Start, Ctx, InjectBot } from 'nestjs-telegraf';
+import { Telegraf, Context } from 'telegraf';
 import { User } from '../users/entities/user.entity';
 
-@Injectable()
+@Update()
 export class TelegramService {
-  private readonly botToken: string;
-
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) {
-    this.botToken = process.env.TELEGRAM_BOT_TOKEN ?? '';
+    private readonly usersRepo: Repository<User>,
+    @InjectBot() private readonly bot: Telegraf,
+  ) {}
+
+  @Start()
+  async start(@Ctx() ctx: Context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+    const phone: string = (ctx as any).payload;
+    const telegramId = ctx?.from?.id?.toString() || '';
+
+    const user = await this.usersRepo.findOne({ where: { phone } });
+
+    if (!user) {
+      await ctx.reply('Пользователь не найден');
+      return;
+    }
+
+    user.telegramChatId = telegramId;
+    await this.usersRepo.save(user);
+
+    await ctx.reply(`Телеграм успешно привязан! Ваш ID: ${telegramId}`);
   }
 
-  async sendMessage(chatId: number, text: string): Promise<void> {
-    const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
-
-    await axios.post(url, {
-      chat_id: chatId,
-      text,
-      parse_mode: 'Markdown',
-    });
-  }
-
-  async linkChatIdToUser(token: string, chatId: number): Promise<boolean> {
-    const user = await this.userRepository.findOne({
-      where: { telegramToken: token },
-    });
-
-    if (!user) return false;
-
-    user.telegramChatId = chatId;
-    user.telegramToken = ''; // удаляем одноразовый токен
-    await this.userRepository.save(user);
-
-    return true;
+  async sendMessage(chatId: string, message: string) {
+    await this.bot.telegram.sendMessage(chatId, message);
   }
 }
